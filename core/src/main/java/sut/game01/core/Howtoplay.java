@@ -9,24 +9,28 @@ import tripleplay.game.ScreenStack;
 import static playn.core.PlayN.assets;
 import static playn.core.PlayN.graphics;
 
-public class GamePlay extends Screen {
+public class Howtoplay extends Screen {
 
-    private final ScreenStack ss;
-    private final ImageLayer bgLayer;
+    private final  ScreenStack ss;
+    private final ImageLayer bgLayer;;
     private final ImageLayer backButton;
 
-    public GamePlay(final ScreenStack ss) {
+  
+
+    public Howtoplay(final ScreenStack ss) {
         this.ss = ss;
 
-        Image bgImage = assets().getImage("images/bg.png");
+
+        Image bgImage = assets().getImage("images/bgHowtoplay.png");
         this.bgLayer = graphics().createImageLayer(bgImage);
 
-
-        Image backImage = assets().getImage("images/main.png");
+        Image backImage = assets().getImage("images/backarrow.png");
         this.backButton = graphics().createImageLayer(backImage);
-        backButton.setTranslation(10 , 10);
+        backButton.setTranslation(80 , 370);
 
-        backButton.addListener(new Mouse.LayerAdapter(){
+
+
+        backButton.addListener(new Mouse.LayerAdapter() {
 
             public void onMouseDown(Mouse.ButtonEvent event) {
                 ss.remove(ss.top());
@@ -40,5 +44,8 @@ public class GamePlay extends Screen {
         super.wasShown();
         this.layer.add(bgLayer);
         this.layer.add(backButton);
+
+
+
     }
 }

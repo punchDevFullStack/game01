@@ -9,9 +9,7 @@ import tripleplay.game.ScreenStack;
 import static playn.core.PlayN.assets;
 import static playn.core.PlayN.graphics;
 
-/**
- * Created by Chatethakhun on 24/3/2559.
- */
+
 public class LoadGameScreen extends Screen {
 
     private final ScreenStack ss;
