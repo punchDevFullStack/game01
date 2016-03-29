@@ -18,7 +18,7 @@ public class GamePlay extends Screen {
     public GamePlay(final ScreenStack ss) {
         this.ss = ss;
 
-        Image bgImage = assets().getImage("images/bg.png");
+        Image bgImage = assets().getImage("images/bgGameplay.png");
         this.bgLayer = graphics().createImageLayer(bgImage);
 
 
