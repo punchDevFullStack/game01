@@ -14,12 +14,12 @@ public class GameOverScreen extends Screen {
     private final ImageLayer bgLayer;
     private final ImageLayer retryLayer;
     private final ImageLayer mainLayer;
-    private final GamePlay gamePlay;
+    private final GameScreen3 gameScreen3;
 
 
     public GameOverScreen(final ScreenStack ss) {
         this.ss = ss;
-        this.gamePlay = new GamePlay(ss);
+        this.gameScreen3 = new GameScreen3(ss);
 
         Image bgImage = assets().getImage("images/over.png");
         this.bgLayer = graphics().createImageLayer(bgImage);
@@ -37,7 +37,7 @@ public class GameOverScreen extends Screen {
         ) {
 
             public void onMouseDown(Mouse.ButtonEvent event) {
-                ss.push(gamePlay);
+                ss.push(gameScreen3);
             }
         });
 

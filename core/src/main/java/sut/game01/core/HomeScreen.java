@@ -1,24 +1,18 @@
 package sut.game01.core;
 
-import playn.core.Font;
-import playn.core.Image;
-import playn.core.ImageLayer;
-import playn.core.Mouse;
-import react.UnitSlot;
+import playn.core.*;
 import tripleplay.game.Screen;
 import tripleplay.game.ScreenStack;
-import tripleplay.game.UIScreen;
 import tripleplay.ui.*;
-import tripleplay.ui.layout.AxisLayout;
 
 
 import static playn.core.PlayN.assets;
 import static playn.core.PlayN.graphics;
 
 public class HomeScreen extends Screen {
-
+    private Sound music;
     private final ScreenStack ss;
-    private final GamePlay gamePlay;
+    private final GameScreen3 gameScreen3;
     private final Setting setting;
     private final GameOverScreen loadGame;
     private final Howtoplay howtoplay;
@@ -27,20 +21,24 @@ public class HomeScreen extends Screen {
     private final ImageLayer newButton;
     private final ImageLayer loadLayer;
     private final ImageLayer musicLayer;
-    private final ImageLayer soundLayer;
+   // private final ImageLayer soundLayer;
     private final ImageLayer questionLayer;
     private final ImageLayer settingLayer;
+    private final GameScreen gameScreen;
 
     private Root root;
 
     public HomeScreen(final ScreenStack ss){
         this.ss = ss;
-        this.gamePlay = new GamePlay(ss);
+        this.gameScreen3 = new GameScreen3(ss);
         this.setting = new Setting(ss);
         this.loadGame = new GameOverScreen(ss);
         this.howtoplay = new Howtoplay(ss);
+        this.gameScreen = new GameScreen(ss);
 
-
+        music = assets().getSound("sounds/gun");
+        music.setVolume(0.10f);    // set volume
+       // music.setLooping(true);
 
         Image bgImage = assets().getImage("images/bg.png");
         this.bgLayer = graphics().createImageLayer(bgImage);
@@ -57,13 +55,9 @@ public class HomeScreen extends Screen {
         this.loadLayer = graphics().createImageLayer(loadImage);
         loadLayer.setTranslation(30, 320);
 
-        Image musicImage = assets().getImage("images/buttonMusic.png");
+        Image musicImage = assets().getImage("images/buttonSound.png");
         this.musicLayer = graphics().createImageLayer(musicImage);
-        musicLayer.setTranslation(12, 410);
-
-        Image soundImage = assets().getImage("images/buttonSound.png");
-        this.soundLayer = graphics().createImageLayer(soundImage);
-        soundLayer.setTranslation(65, 410);
+        musicLayer.setTranslation(65, 410);
 
         Image questionImage = assets().getImage("images/buttonQuestion.png");
         this.questionLayer = graphics().createImageLayer(questionImage);
@@ -77,7 +71,7 @@ public class HomeScreen extends Screen {
         newButton.addListener(new Mouse.LayerAdapter() {
 
             public void onMouseDown(Mouse.ButtonEvent event) {
-                ss.push(gamePlay);
+                ss.push(gameScreen);
             }
         });
 
@@ -101,7 +95,16 @@ public class HomeScreen extends Screen {
                 ss.push(howtoplay);
             }
         });
+        musicLayer.addListener(new Mouse.LayerAdapter (){
+            public ImageLayer soundLayer;
 
+            public void onMouseDown(Mouse.ButtonEvent event){
+            music.stop();
+            Image soundImage = assets().getImage("images/buttonSoundStop.png");
+            this.soundLayer = graphics().createImageLayer(soundImage);
+            soundLayer.setTranslation(65, 410);
+            graphics().rootLayer().add(soundLayer);
+        }});
     }
 
 
@@ -109,12 +112,14 @@ public class HomeScreen extends Screen {
     public void wasShown() {
         super.wasShown();
 
+        music.play();
+
         this.layer.add(bgLayer);
         this.layer.add(logoLayer);
         this.layer.add(newButton);
         this.layer.add(loadLayer);
         this.layer.add(musicLayer);
-        this.layer.add(soundLayer);
+       // this.layer.add(soundLayer);
         this.layer.add(questionLayer);
         this.layer.add(settingLayer);
     

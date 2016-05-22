@@ -32,7 +32,7 @@ public class MyGame extends Game.Default {
 
 
   public void paint(float alpha) {
-    // the background automatically paints itself, so no need to do anything here!
+
     clock.paint(alpha);
     ss.paint(clock);
 
