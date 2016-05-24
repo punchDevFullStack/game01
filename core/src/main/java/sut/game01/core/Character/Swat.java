@@ -21,7 +21,9 @@ import tripleplay.game.Screen;
 import playn.core.CanvasImage;
 import playn.core.DebugDrawBox2D;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import static playn.core.PlayN.graphics;
 import static sut.game01.core.GameScreen.bodies;
@@ -47,16 +49,17 @@ public class Swat extends Screen{
     private boolean showDebugDraw=true;
     private float position;
 
+    private List<Bullet> bulletList;
     public Body getBody() {
         return body;
     }
 
 
     public enum State {
-       IDLE,LWALK,RWALK,SHOOT,DIE
+       RIDLE,LWALK,RWALK,RSHOOT,LIDLE,LSHOOT
     }
-    private State state = State.IDLE;
-
+    private State state = State.RIDLE;
+    private boolean left=false;
     private Body body;
 
     private int e = 0;
@@ -65,6 +68,7 @@ public class Swat extends Screen{
     public Swat(final World world, final float x, final float y) {
     this.x=x;
     this.y=y;
+    bulletList = new ArrayList<Bullet>();
         sprite = SpriteLoader.getSprite("images/swat.json");
         sprite.addCallback(new Callback<Sprite>() {
 
@@ -91,18 +95,30 @@ public class Swat extends Screen{
         PlayN.keyboard().setListener(new Keyboard.Adapter() {
             @Override
             public void onKeyUp(Keyboard.Event event) {
-                if(event.key()==Key.LEFT) {
-                    state = State.IDLE;
-                }
-                else if(event.key()==Key.RIGHT){
-                    state = State.IDLE;
-                }
-                else if(event.key()==Key.ENTER){
-                    state = State.IDLE;
-                    body.applyForce(new Vec2(-5f, -700f), body.getPosition());
-                }else if(event.key()==Key.SPACE){
-                    state = State.SHOOT; Bullet bu = new Bullet(world,body.getPosition().x /GameScreen.M_PER_PIXEL +40,body.getPosition().y / GameScreen.M_PER_PIXEL-20);
-                    GameScreen.addBullet(bu);
+                switch(event.key()){
+                    case LEFT:
+                        left=true;
+                        state = State.LIDLE;
+                        break;
+                    case RIGHT:
+                        left=false;
+                        state = State.RIDLE;
+                        break;
+                    case UP:
+                        if( left == true ){
+                            state=State.LIDLE;
+                              body.applyForce(new Vec2(-5f, -700f), body.getPosition());
+                        }
+                        else {state = State.RIDLE;
+                             body.applyForce(new Vec2(5f, -700f), body.getPosition());
+                        }
+                        break;
+                    case SPACE:
+                        if(left == true) { state = State.LSHOOT; }
+                        else { state = State.RSHOOT; }
+                        //Bullet bu = new Bullet(world,body.getPosition().x /GameScreen.M_PER_PIXEL +40,body.getPosition().y / GameScreen.M_PER_PIXEL-20);
+                        //GameScreen.addBullet(bu);
+                        break;
                 }
             }
 
@@ -111,11 +127,37 @@ public class Swat extends Screen{
             public void onKeyDown(Keyboard.Event event) {
                 switch (event.key()){
                     case LEFT:
+                        left=true;
                         state = State.LWALK; break;
                     case RIGHT:
+                        left=false;
                         state = State.RWALK; break;
+                    case UP:
+                        if(left == true) { state = State.LIDLE; }
+                        else { state = State.RIDLE; }
+                        break;
+                    case DOWN:
+                        if(left == true) { state = State.LIDLE; }
+                        else { state = State.RIDLE; }
+                        break;
                     case SPACE:
-                        state = State.IDLE; break;
+                        Bullet bu;
+                        if(left == true) {
+                            state = State.LSHOOT;
+                            bu = new Bullet(world,
+                                    body.getPosition().x / GameScreen.M_PER_PIXEL - 55,
+                                    body.getPosition().y / GameScreen.M_PER_PIXEL);
+                            //  body.applyForce(new Vec2(-10f,0f), body.getPosition());
+                            GameScreen.addBullet(bu);
+                        } else {
+                            state = State.RSHOOT;
+                            bu = new Bullet(world,
+                                    body.getPosition().x / GameScreen.M_PER_PIXEL + 40,
+                                    body.getPosition().y / GameScreen.M_PER_PIXEL-20);
+                            //    body.applyForce(new Vec2(10f,-2f), body.getPosition());
+                            GameScreen.addBullet(bu);
+                        }
+                        break;
                 }
             }
         });
@@ -154,33 +196,39 @@ public class Swat extends Screen{
     public void update(int delta) {
         if(hasLoaded == false) return;
 
+
         e += delta;
         if(e > 250) {
             switch(state) {
-                case IDLE: 
-                    if(!(si>=0&&si<=1)){
+                case RIDLE:
+                    if(!(si>=0&&si<=0)){
                         si = 0;
                     }  
                     break;
                 case RWALK: 
-                    if(!(si>=3&&si<=4)){    
+                    if(!(si>=3&&si<=4)){
                         si = 3;
                     } 
                     break;
-                case SHOOT:  
-                      if(!(si>=5&&si<=7)){  
-                        si = 5; 
+                case RSHOOT:
+                      if(!(si>=5&&si<=7)){
+                        si = 5;
                     }
                     break;
-                case DIE:  
-                      if(!(si>=8&&si<=10)){  
-                        si = 8; 
+                case LIDLE:
+                      if(!(si>=8&&si<=8)){
+                        si = 8;
                     }
                     break; 
                 case LWALK: 
-                    if(!(si>=12&&si<=13)){
-                        si = 12;
+                    if(!(si>=11&&si<=13)){
+                        si = 11;
                     } 
+                    break;
+                case LSHOOT:
+                    if(!(si>=14&&si<=16)){
+                        si = 14;
+                    }
                     break;
             }
             si++;
@@ -201,10 +249,12 @@ public class Swat extends Screen{
 
         switch (state){
             case LWALK:
+                left=true;
                 body.applyForce(new Vec2(-10f, 0f), body.getPosition());
                 break;
 
             case RWALK:
+                left=false;
                 body.applyForce(new Vec2(10f, 0f), body.getPosition());
                 break;
         
@@ -212,12 +262,17 @@ public class Swat extends Screen{
 
     }
 
+
+
     public void contact(Contact contact){
         contacted = true;
         contactCheck = 0;
 
-        if(state == State.RWALK||state==State.LWALK||state==State.SHOOT ){
-            state = State.IDLE;
+        if(state == State.RWALK||state==State.RIDLE||state==State.RSHOOT){
+            state = State.RIDLE;
+        }
+        if(state == State.LWALK||state==State.LIDLE||state==State.LSHOOT){
+            state=State.LIDLE;
         }
         if(contact.getFixtureA().getBody()==body){
             other = contact.getFixtureB().getBody();

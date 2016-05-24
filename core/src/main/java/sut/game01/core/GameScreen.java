@@ -23,7 +23,7 @@ import static playn.core.PlayN.*;
 
 public class GameScreen extends Screen{
     public static final Font TITLE_FONT = graphics().createFont("Helvetica",Font.Style.PLAIN,72);
-    private final GameScreen3 gameScreen3;
+    private final GameScreen2 gameScreen2;
     private final GameOverScreen loadGame;
     private int score =0;
     private int count1 =0;
@@ -80,9 +80,9 @@ public class GameScreen extends Screen{
 
     public GameScreen(final ScreenStack ss) {
         this.ss = ss;
-        this.gameScreen3= new GameScreen3(ss);
+        this.gameScreen2 = new GameScreen2(ss);
         this.loadGame = new GameOverScreen(ss);
-        Image bgImage = assets().getImage("images/bgGamePlay.png");
+        Image bgImage = assets().getImage("images/bgGameScreen6.png");
         this.bg = graphics().createImageLayer(bgImage);
 
         //==================================================================
@@ -115,7 +115,7 @@ public class GameScreen extends Screen{
 
         Body ground = world.createBody(new BodyDef());
         EdgeShape groundShape = new EdgeShape();
-        groundShape.set(new Vec2(0, height-2.5f), new Vec2(width, height-2.5f ));
+        groundShape.set(new Vec2(0, height-0.7f), new Vec2(width+3.0f, height-0.7f ));
         ground.createFixture(groundShape, 0.0f);
 
         //==================================================================
@@ -159,7 +159,7 @@ public class GameScreen extends Screen{
         this.layer.add(bg);
         this.layer.add(backButton);
         this.layer.add(swat.layer());
-        this.layer.add(henchman.layer());
+       // this.layer.add(henchman.layer());
         this.layer.add(militia.layer());
 
         //============================================================
@@ -212,6 +212,10 @@ public class GameScreen extends Screen{
                 }
                 for(Bullet bu :bulletList){
 
+                    if( contact.getFixtureA().getBody() == bu.getBody()||
+                            contact.getFixtureB().getBody() == bu.getBody()){
+                        bu.contact(contact);
+                    }
                     if((a == bu.getBody() &&  b == henchman.getBody()) || (a == henchman.getBody() && b == bu.getBody())){
                         bu.contact(contact);
                         count1++; //henchman.contact(contact);
@@ -237,7 +241,7 @@ public class GameScreen extends Screen{
                             // bu.layer().destroy();
                             count2=0;
                             System.out.println("count2=="+count2);
-                        ss.push(new GameScreen3(ss));
+                        ss.push(new GameScreen2(ss));
                         }
                     }
 
@@ -280,7 +284,7 @@ public class GameScreen extends Screen{
         super.update(delta);
         swat.update(delta);
         world.step(0.033f,10,10);
-        henchman.update(delta);
+     //   henchman.update(delta);
         militia.update(delta);
         for(Bullet bu : bulletList){
             bu.update(delta);
@@ -306,7 +310,7 @@ public class GameScreen extends Screen{
         super.paint(clock);
 
         swat.paint(clock);
-        henchman.paint(clock);
+      //  henchman.paint(clock);
         militia.paint(clock);
         for(Bullet bu : bulletList){
             bu.paint(clock);

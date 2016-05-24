@@ -12,7 +12,7 @@ import static playn.core.PlayN.graphics;
 public class HomeScreen extends Screen {
     private Sound music;
     private final ScreenStack ss;
-    private final GameScreen3 gameScreen3;
+    private final GameScreen2 gameScreen2;
     private final Setting setting;
     private final GameOverScreen loadGame;
     private final Howtoplay howtoplay;
@@ -30,7 +30,7 @@ public class HomeScreen extends Screen {
 
     public HomeScreen(final ScreenStack ss){
         this.ss = ss;
-        this.gameScreen3 = new GameScreen3(ss);
+        this.gameScreen2 = new GameScreen2(ss);
         this.setting = new Setting(ss);
         this.loadGame = new GameOverScreen(ss);
         this.howtoplay = new Howtoplay(ss);
