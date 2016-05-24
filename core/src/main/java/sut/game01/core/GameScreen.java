@@ -74,7 +74,7 @@ public class GameScreen extends Screen{
 
     private World world;
     private DebugDrawBox2D debugDraw;
-    private boolean showDebugDraw = true;
+    private boolean showDebugDraw = true ;
 
     //=======================================================
 
@@ -117,13 +117,13 @@ public class GameScreen extends Screen{
         EdgeShape groundShape = new EdgeShape();
         groundShape.set(new Vec2(0, height-0.7f), new Vec2(width+3.0f, height-0.7f ));
         ground.createFixture(groundShape, 0.0f);
-
+/*
         //==================================================================
         // insert left_wall in world
         EdgeShape left_wall = new EdgeShape();
         left_wall.set(new Vec2(0,0),new Vec2(0,height));
         ground.createFixture(left_wall,0.0f);
-/*
+
         //==================================================================
         // insert right_wall in world
         EdgeShape right_wall = new EdgeShape();
@@ -212,10 +212,10 @@ public class GameScreen extends Screen{
                 }
                 for(Bullet bu :bulletList){
 
-                    if( contact.getFixtureA().getBody() == bu.getBody()||
+                 /*   if( contact.getFixtureA().getBody() == bu.getBody()||
                             contact.getFixtureB().getBody() == bu.getBody()){
                         bu.contact(contact);
-                    }
+                    }*/
                     if((a == bu.getBody() &&  b == henchman.getBody()) || (a == henchman.getBody() && b == bu.getBody())){
                         bu.contact(contact);
                         count1++; //henchman.contact(contact);

@@ -24,7 +24,7 @@ import java.util.List;
 import static playn.core.PlayN.assets;
 import static playn.core.PlayN.graphics;
 
-public class GameScreen2 extends Screen {
+public class GameScreen3 extends Screen {
     private  HomeScreen homeScreen;
     private final ScreenStack ss;
     private final ImageLayer bgLayer;
@@ -41,12 +41,12 @@ public class GameScreen2 extends Screen {
 
     private World world;
     private DebugDrawBox2D debugDraw;
-    private boolean showDebugDraw = true;
+    private boolean showDebugDraw = false;
 
-    public GameScreen2(final ScreenStack ss) {
+    public GameScreen3(final ScreenStack ss) {
         this.ss = ss;
-       // this.homeScreen = new HomeScreen(ss);
-        Image bgImage = assets().getImage("images/bgGameScreen7.png");
+        // this.homeScreen = new HomeScreen(ss);
+        Image bgImage = assets().getImage("images/bgGameScreen8.png");
         this.bgLayer = graphics().createImageLayer(bgImage);
 
 
@@ -96,7 +96,7 @@ public class GameScreen2 extends Screen {
         swatList = new ArrayList<Swat>(); // use arrayList
     }
 
-   // Militia m = new Militia(world,560f,400f);
+    // Militia m = new Militia(world,560f,400f);
 
     public void wasShown() {
         super.wasShown();
@@ -121,7 +121,7 @@ public class GameScreen2 extends Screen {
             debugDraw.setCamera(0,0,1f/GameScreen.M_PER_PIXEL);
             world.setDebugDraw(debugDraw);
         }
-     //   this.layer.add(m.layer());
+        //   this.layer.add(m.layer());
     }
 
     @Override
@@ -129,7 +129,7 @@ public class GameScreen2 extends Screen {
         super.update(delta);
         swat.update(delta);
         world.step(0.033f,10,10);
-      //  m.update(delta);
+        //  m.update(delta);
     }
 
     @Override
@@ -148,7 +148,7 @@ public class GameScreen2 extends Screen {
         if(showDebugDraw){
             debugDraw.getCanvas().clear();
             debugDraw.getCanvas().setFillColor(Color.rgb(255, 255, 255));
-           // debugDraw.getCanvas().drawText("Score : "+String.valueOf(score),300f,50f);
+            // debugDraw.getCanvas().drawText("Score : "+String.valueOf(score),300f,50f);
             world.drawDebugData();
         }
     }

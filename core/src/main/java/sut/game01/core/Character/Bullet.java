@@ -32,13 +32,16 @@ public class Bullet extends Screen {
         IDLE
     };
 
+    private char direction;
     private State state = State.IDLE;
     private int offset = 0;
     private int e = 0;
-    public Bullet(final World world, final float x_px, final float y_px) {
+    public Bullet(final World world, final float x_px, final float y_px, final char direction) {
         this.x = x_px;
         this.y = y_px;
         this.world = world;
+        this.direction = direction;
+
         sprite = SpriteLoader.getSprite("images/bullet.json");
         sprite.addCallback(new Callback<Sprite>(){
             @Override
@@ -81,6 +84,14 @@ public class Bullet extends Screen {
         body.setLinearDamping(0.2f);
         body.setTransform(new Vec2(x, y), 0f);
         body.applyLinearImpulse(new Vec2(10f,0f), body.getPosition());
+
+        if(direction == 'R'){
+            state = State.IDLE;
+           // body.applyForce(new Vec2(10f,0f), body.getPosition());
+        }else if(direction == 'L') {
+            state =State.IDLE;
+           // body.applyForce(new Vec2(-10f,0f), body.getPosition());
+        }
         return body;
     }
 
@@ -110,14 +121,16 @@ public class Bullet extends Screen {
             }
             spriteIndex = offset + ((spriteIndex + 1) % 4);
             sprite.setSprite(spriteIndex);
-            sprite.layer().setTranslation(body.getPosition().x + 20/ GameScreen.M_PER_PIXEL,
-                    body.getPosition().y / GameScreen.M_PER_PIXEL);
+                sprite.layer().setTranslation(body.getPosition().x / GameScreen.M_PER_PIXEL,
+                        body.getPosition().y / GameScreen.M_PER_PIXEL);
             e = 0;
         }
     }
 
     public void paint(Clock clock){
         if(!hasLoaded) return;
+
+        sprite.layer().setRotation(body.getAngle());
 
         sprite.layer().setTranslation(
                 (body.getPosition().x / GameScreen.M_PER_PIXEL),

@@ -145,16 +145,16 @@ public class Swat extends Screen{
                         if(left == true) {
                             state = State.LSHOOT;
                             bu = new Bullet(world,
-                                    body.getPosition().x / GameScreen.M_PER_PIXEL - 55,
-                                    body.getPosition().y / GameScreen.M_PER_PIXEL);
-                            //  body.applyForce(new Vec2(-10f,0f), body.getPosition());
+                                    (body.getPosition().x )/ GameScreen.M_PER_PIXEL-250 ,
+                                    body.getPosition().y / GameScreen.M_PER_PIXEL,'L');
+                              body.applyForce(new Vec2(-10f,0f), body.getPosition());
                             GameScreen.addBullet(bu);
                         } else {
                             state = State.RSHOOT;
                             bu = new Bullet(world,
-                                    body.getPosition().x / GameScreen.M_PER_PIXEL + 40,
-                                    body.getPosition().y / GameScreen.M_PER_PIXEL-20);
-                            //    body.applyForce(new Vec2(10f,-2f), body.getPosition());
+                                    body.getPosition().x / GameScreen.M_PER_PIXEL + 55,
+                                    body.getPosition().y / GameScreen.M_PER_PIXEL,'R');
+                                body.applyForce(new Vec2(10f,0f), body.getPosition());
                             GameScreen.addBullet(bu);
                         }
                         break;
@@ -226,7 +226,7 @@ public class Swat extends Screen{
                     } 
                     break;
                 case LSHOOT:
-                    if(!(si>=14&&si<=16)){
+                    if(!(si>=14&&si<=15)){
                         si = 14;
                     }
                     break;
