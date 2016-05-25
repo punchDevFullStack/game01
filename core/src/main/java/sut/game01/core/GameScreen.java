@@ -26,9 +26,11 @@ public class GameScreen extends Screen{
     private final GameScreen2 gameScreen2;
     private final GameOverScreen loadGame;
     private int life =3;
-    private int score =0;
+     int score =0;
     private int count1 =0;
     private int count2 =0;
+
+
     public enum Character{
         SWAT,BULLET,BULLET2,HENCHMAN,MILITIA
     }
@@ -238,7 +240,7 @@ public class GameScreen extends Screen{
                             destroy = true;
                             henchman.layer().destroy();
                             // bu.layer().destroy();
-                            ++score;
+                            score+=10;
                             count1=0;
                            // henchman_1 = new Henchman(world,550f,400f);
                         }
@@ -254,7 +256,7 @@ public class GameScreen extends Screen{
                             militia.layer().destroy();
                             // bu.layer().destroy();
                             count2=0;
-                            ++score;
+                            score+=10;
                        //     ss.push(new GameScreen2(ss));
                         }
                     }
@@ -348,7 +350,7 @@ public class GameScreen extends Screen{
     }
     public static void addBullet2(Bullet2 bu2){
         bullet2List.add(bu2);
-    }
+    }  
 }
 
 
