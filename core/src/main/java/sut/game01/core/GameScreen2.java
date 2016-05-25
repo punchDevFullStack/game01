@@ -145,10 +145,11 @@ public class GameScreen2 extends Screen {
         for(Bullet2 bu2 : bullet2List){
             bu2.paint(clock);
         }*/
+
         if(showDebugDraw){
             debugDraw.getCanvas().clear();
             debugDraw.getCanvas().setFillColor(Color.rgb(255, 255, 255));
-           // debugDraw.getCanvas().drawText("Score : "+String.valueOf(score),300f,50f);
+         //   debugDraw.getCanvas().drawText("Score : "+String.valueOf(GameScreen.score),300f,50f);
             world.drawDebugData();
         }
     }

@@ -162,7 +162,7 @@ public class GameScreen extends Screen{
         this.layer.add(henchman.layer());
         this.layer.add(militia.layer());
 
-     //   this.layer.add(henchman_1.layer());
+        //this.layer.add(henchman_1.layer());
         //============================================================
         // debug mode
 
@@ -232,7 +232,7 @@ public class GameScreen extends Screen{
                         count1 = count1 +1; //henchman.contact(contact);
                         System.out.println(count1);
 
-                        if(count1>=4) {
+                        if(count1==4) {
                             System.out.println("Die");
                             character = Character.HENCHMAN;
                             destroy = true;
@@ -240,6 +240,7 @@ public class GameScreen extends Screen{
                             // bu.layer().destroy();
                             ++score;
                             count1=0;
+                           // henchman_1 = new Henchman(world,550f,400f);
                         }
                     }
                     if((a == bu.getBody() &&  b == militia.getBody()) || (a == militia.getBody() && b == bu.getBody())){
@@ -247,7 +248,7 @@ public class GameScreen extends Screen{
                         count2=count2+1;
                         //henchman.contact(contact);
 
-                        if(count2>=4) {
+                        if(count2==4) {
                             character = Character.MILITIA;
                             destroy = true;
                             militia.layer().destroy();
@@ -299,7 +300,7 @@ public class GameScreen extends Screen{
         henchman.update(delta);
         militia.update(delta);
 
-      //  henchman_1.update(delta);
+       // henchman_1.update(delta);
         for(Bullet bu : bulletList){
             bu.update(delta);
             this.layer.add(bu.layer());
@@ -327,7 +328,7 @@ public class GameScreen extends Screen{
         henchman.paint(clock);
         militia.paint(clock);
 
-      //  henchman_1.paint(clock);
+       // henchman_1.paint(clock);
         for(Bullet bu : bulletList){
             bu.paint(clock);
         }
