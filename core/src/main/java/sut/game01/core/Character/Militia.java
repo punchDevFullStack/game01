@@ -150,7 +150,7 @@ public class Militia extends Screen{
     public void contact2(Contact contact){
         contacted = true;
         contactCheck = 0;
-        if(state == State.SHOOT ){
+        if(state == State.SHOOT ||state == State.IDLE){
             state = State.IDLE;
         }
         if(contact.getFixtureA().getBody()==body){

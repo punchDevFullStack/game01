@@ -143,8 +143,7 @@ public class GameScreen3 extends Screen {
         super.paint(clock);
         swat.paint(clock);
         boss.paint(clock);
-      /*  swat.paint(clock);
-        henchman.paint(clock);
+      /*   henchman.paint(clock);
         militia.paint(clock);
         for(Bullet bu : bulletList){
             bu.paint(clock);
