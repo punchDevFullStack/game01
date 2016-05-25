@@ -10,10 +10,7 @@ import org.jbox2d.dynamics.World;
 import playn.core.*;
 //import sut.game01.core.Character.Militia;
 import playn.core.util.Clock;
-import sut.game01.core.Character.Bullet;
-import sut.game01.core.Character.Bullet2;
-import sut.game01.core.Character.Swat;
-import sut.game01.core.Character.Zealot;
+import sut.game01.core.Character.*;
 import tripleplay.game.Screen;
 import tripleplay.game.ScreenStack;
 
@@ -31,6 +28,8 @@ public class GameScreen3 extends Screen {
     private final ImageLayer backButton;
     private Swat swat;  // use swat character
     private List<Swat> swatList ; //  use swat in list
+    private Boss boss;
+    private List<Boss> bossList;
 
     //=======================================================
     // define for world
@@ -92,8 +91,13 @@ public class GameScreen3 extends Screen {
     */
 
         swat = new Swat(world, 80f, 400f);
-
         swatList = new ArrayList<Swat>(); // use arrayList
+
+        boss = new Boss(world,550f,400f);
+        //   henchman_1 = new Henchman(world,550f,400f);
+        //   henchman_2 = new Henchman(world,550f,400f);
+        //    henchman_3 = new Henchman(world,550f,400f);
+        bossList = new ArrayList<Boss>();
     }
 
     // Militia m = new Militia(world,560f,400f);
@@ -103,6 +107,7 @@ public class GameScreen3 extends Screen {
         this.layer.add(bgLayer);
         this.layer.add(backButton);
         this.layer.add(swat.layer());
+        this.layer.add(boss.layer());
 
         if(showDebugDraw){
             CanvasImage image = graphics().createImage(
@@ -128,6 +133,7 @@ public class GameScreen3 extends Screen {
     public void update(int delta){
         super.update(delta);
         swat.update(delta);
+        boss.update(delta);
         world.step(0.033f,10,10);
         //  m.update(delta);
     }
@@ -136,6 +142,7 @@ public class GameScreen3 extends Screen {
     public void paint(Clock clock){
         super.paint(clock);
         swat.paint(clock);
+        boss.paint(clock);
       /*  swat.paint(clock);
         henchman.paint(clock);
         militia.paint(clock);

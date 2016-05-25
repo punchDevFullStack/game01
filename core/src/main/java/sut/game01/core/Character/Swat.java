@@ -146,14 +146,14 @@ public class Swat extends Screen{
                             state = State.LSHOOT;
                             bu = new Bullet(world,
                                     (body.getPosition().x )/ GameScreen.M_PER_PIXEL-250 ,
-                                    body.getPosition().y / GameScreen.M_PER_PIXEL,'L');
-                              body.applyForce(new Vec2(-10f,0f), body.getPosition());
+                                    body.getPosition().y / GameScreen.M_PER_PIXEL-20,'L');
+                              body.applyForce(new Vec2(-10f,-2f), body.getPosition());
                             GameScreen.addBullet(bu);
                         } else {
                             state = State.RSHOOT;
                             bu = new Bullet(world,
                                     body.getPosition().x / GameScreen.M_PER_PIXEL + 55,
-                                    body.getPosition().y / GameScreen.M_PER_PIXEL,'R');
+                                    body.getPosition().y / GameScreen.M_PER_PIXEL-20,'R');
                                 body.applyForce(new Vec2(10f,0f), body.getPosition());
                             GameScreen.addBullet(bu);
                         }
