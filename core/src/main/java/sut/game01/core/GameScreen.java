@@ -65,7 +65,7 @@ public class GameScreen extends Screen{
     public static HashMap<Object,String> bodies;
     public static int k = 0;
     public static int point = 0;
-    public static String debugString = "";
+
     public static String debugStringCoin = "";
 
     //=======================================================
@@ -77,9 +77,10 @@ public class GameScreen extends Screen{
 
     private World world;
     private DebugDrawBox2D debugDraw;
-    private boolean showDebugDraw = true ;
+    private boolean showDebugDraw = true;
 
     //=======================================================
+    private String debugString = "Hello";
 
     public GameScreen(final ScreenStack ss) {
         this.ss = ss;
@@ -132,7 +133,7 @@ public class GameScreen extends Screen{
         EdgeShape right_wall = new EdgeShape();
         right_wall.set(new Vec2(24,0),new Vec2(24,height));
         ground.createFixture(right_wall,0.0f);
-*/
+        */
 
 
         //==================================================================
@@ -141,12 +142,12 @@ public class GameScreen extends Screen{
         swat = new Swat(world, 80f, 400f);
 
         swatList = new ArrayList<Swat>(); // use arrayList
-        henchman = new Henchman(world,490f,400f);
+        henchman = new Henchman(world,440f,400f);
      //   henchman_1 = new Henchman(world,550f,400f);
      //   henchman_2 = new Henchman(world,550f,400f);
     //    henchman_3 = new Henchman(world,550f,400f);
         henchmanList = new ArrayList<Henchman>();
-         militia = new Militia(world,570f,400f);
+         militia = new Militia(world,500f,400f);
     //    militia_1 = new Militia(world,570f,400f);
    //     militia_2 = new Militia(world,570f,400f);
    //     militia_3 = new Militia(world,570f,400f);
@@ -232,9 +233,9 @@ public class GameScreen extends Screen{
                     if((a == bu.getBody() &&  b == henchman.getBody()) || (a == henchman.getBody() && b == bu.getBody())){
                         bu.contact(contact);
                         count1 = count1 +1; //henchman.contact(contact);
-                        System.out.println(count1);
-
-                        if(count1==4) {
+                        //System.out.println(count1);
+                       // debugString = bodies.get(a) + " contact with " + bodies.get(b);
+                        if(count1==3) {
                             System.out.println("Die");
                             character = Character.HENCHMAN;
                             destroy = true;
@@ -242,14 +243,16 @@ public class GameScreen extends Screen{
                             // bu.layer().destroy();
                             score+=10;
                             count1=0;
+
                            // henchman_1 = new Henchman(world,550f,400f);
                         }
+                        break;
                     }
                     if((a == bu.getBody() &&  b == militia.getBody()) || (a == militia.getBody() && b == bu.getBody())){
                         bu.contact(contact);
                         count2=count2+1;
                         //henchman.contact(contact);
-
+                        //debugString = bodies.get(a) + " contact with " + bodies.get(b);
                         if(count2==4) {
                             character = Character.MILITIA;
                             destroy = true;
@@ -258,7 +261,7 @@ public class GameScreen extends Screen{
                             count2=0;
                             score+=10;
                        //     ss.push(new GameScreen2(ss));
-                        }
+                        }break;
                     }
 
                 }
@@ -340,7 +343,8 @@ public class GameScreen extends Screen{
         if(showDebugDraw){
             debugDraw.getCanvas().clear();
             debugDraw.getCanvas().setFillColor(Color.rgb(255, 255, 255));
-            debugDraw.getCanvas().drawText("Score : "+String.valueOf(score),300f,50f);
+            debugDraw.getCanvas().drawText("Score : " + String.valueOf(score),300f,50f);
+          //  debugDraw.getCanvas().drawText(debugString,100f,80f);
             debugDraw.getCanvas().drawText("Life : "+String.valueOf(life),100f,50f);
             world.drawDebugData();
         }
