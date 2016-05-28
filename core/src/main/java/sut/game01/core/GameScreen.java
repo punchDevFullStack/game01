@@ -13,7 +13,7 @@ import playn.core.CanvasImage;
 import sut.game01.core.Character.*;
 import tripleplay.game.Screen;
 import tripleplay.game.ScreenStack;
-
+import sut.game01.core.Character.Swat;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,13 +26,22 @@ public class GameScreen extends Screen{
     private final GameScreen2 gameScreen2;
     private final GameOverScreen loadGame;
     private int life =3;
-     int score =0;
+    int score =0;
+    static int numbullet=20;
+    int increasenumbullet=20;
     private int count1 =0;
     private int count2 =0;
 
+  public  static void setNumbullet(int numbullet){
+      GameScreen.numbullet=numbullet;
+  }
+
+    public static int getNumbullet(){
+        return numbullet;
+    }
 
     public enum Character{
-        SWAT,BULLET,BULLET2,HENCHMAN,MILITIA
+        SWAT,BULLET,BULLET2,HENCHMAN,MILITIA,GUN
     }
     private Character character;
     // define for screen
@@ -40,10 +49,10 @@ public class GameScreen extends Screen{
     private final ScreenStack ss;
     private final ImageLayer bg;
     private final ImageLayer backButton;
-
+   // private final ImageLayer gun;
     //=======================================================
     // define for character
-
+    private Gun gun;
     private Swat swat;  // use swat character
     private List<Swat> swatList ; //  use swat in list
     private Henchman henchman;
@@ -86,6 +95,7 @@ public class GameScreen extends Screen{
         this.ss = ss;
         this.gameScreen2 = new GameScreen2(ss);
         this.loadGame = new GameOverScreen(ss);
+
         Image bgImage = assets().getImage("images/bgGameScreen6.png");
         this.bg = graphics().createImageLayer(bgImage);
 
@@ -102,6 +112,7 @@ public class GameScreen extends Screen{
                 ss.remove(ss.top());
             }
         });
+
 
         //==================================================================
         // define world
@@ -153,6 +164,8 @@ public class GameScreen extends Screen{
    //     militia_3 = new Militia(world,570f,400f);
         militiaList = new ArrayList<Militia>();
 
+        gun = new Gun(world,450f,260f);
+
     }
 
     @Override
@@ -164,7 +177,7 @@ public class GameScreen extends Screen{
         this.layer.add(swat.layer());
         this.layer.add(henchman.layer());
         this.layer.add(militia.layer());
-
+        this.layer.add(gun.layer());
         //this.layer.add(henchman_1.layer());
         //============================================================
         // debug mode
@@ -224,6 +237,14 @@ public class GameScreen extends Screen{
                     ss.push(loadGame);
 
                 }
+                if((a == swat.getBody() &&  b == gun.getBody()) || (a == gun.getBody() && b == swat.getBody())){
+                    numbullet=numbullet+increasenumbullet;
+                    character = Character.GUN;
+                    destroy=true;
+                    gun.layer().destroy();
+
+
+                }
                 for(Bullet bu :bulletList){
 
                  /*   if( contact.getFixtureA().getBody() == bu.getBody()||
@@ -260,7 +281,7 @@ public class GameScreen extends Screen{
                             // bu.layer().destroy();
                             count2=0;
                             score+=10;
-                       //     ss.push(new GameScreen2(ss));
+                        //    ss.push(new GameScreen2(ss));
                         }break;
                     }
 
@@ -304,7 +325,7 @@ public class GameScreen extends Screen{
         world.step(0.033f,10,10);
         henchman.update(delta);
         militia.update(delta);
-
+        gun.update(delta);
        // henchman_1.update(delta);
         for(Bullet bu : bulletList){
             bu.update(delta);
@@ -320,10 +341,13 @@ public class GameScreen extends Screen{
                // case BULLET: world.destroyBody(bu.getBody()); break;
                 case HENCHMAN: world.destroyBody(henchman.getBody()); break;
                 case MILITIA: world.destroyBody(militia.getBody()); break;
+                case GUN: world.destroyBody(gun.getBody()); break;
             }
         }
 
     }
+
+
 
     @Override
     public void paint(Clock clock){
@@ -332,6 +356,7 @@ public class GameScreen extends Screen{
         swat.paint(clock);
         henchman.paint(clock);
         militia.paint(clock);
+        gun.paint(clock);
 
        // henchman_1.paint(clock);
         for(Bullet bu : bulletList){
@@ -344,11 +369,15 @@ public class GameScreen extends Screen{
             debugDraw.getCanvas().clear();
             debugDraw.getCanvas().setFillColor(Color.rgb(255, 255, 255));
             debugDraw.getCanvas().drawText("Score : " + String.valueOf(score),300f,50f);
-          //  debugDraw.getCanvas().drawText(debugString,100f,80f);
+            debugDraw.getCanvas().drawText(numbullet+"/20",500f,50f);
             debugDraw.getCanvas().drawText("Life : "+String.valueOf(life),100f,50f);
             world.drawDebugData();
+            if (numbullet == 0 ){
+                debugDraw.getCanvas().drawText("no bullet",500f,90f);
+            }
         }
     }
+
     public static void addBullet(Bullet bu){
         bulletList.add(bu);
     }

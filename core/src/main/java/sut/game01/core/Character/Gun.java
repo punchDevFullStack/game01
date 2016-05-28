@@ -13,9 +13,9 @@ import sut.game01.core.sprite.Sprite;
 import sut.game01.core.sprite.SpriteLoader;
 import tripleplay.game.Screen;
 
-public class Boss extends Screen{
+public class Gun extends Screen{
 
-    private Militia militia;
+
     private Sprite sprite;
 
     private boolean hasLoaded = false;
@@ -33,18 +33,18 @@ public class Boss extends Screen{
 
 
     public enum State {
-        RWALK,LWALK
+        IDLE
     }
 
-    private State state = State.LWALK;
+    private State state = State.IDLE;
     private Body body;
     private int e = 0;
     private int si = 0;
 
-    public Boss(final World world, final float x_px, final float y_px) {
+    public Gun(final World world, final float x_px, final float y_px) {
         this.x = x_px;
         this.y = y_px;
-        sprite = SpriteLoader.getSprite("images/boss.json");
+        sprite = SpriteLoader.getSprite("images/gun.json");
         sprite.addCallback(new Callback<Sprite>() {
 
             @Override
@@ -73,14 +73,14 @@ public class Boss extends Screen{
 
     private Body initPhysicsBody(World world, float x, float y){
         BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyType.DYNAMIC;
+        bodyDef.type = BodyType.STATIC;
         bodyDef.position = new Vec2(0, 0);
         Body body = world.createBody(bodyDef);
 
 
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(54 * GameScreen.M_PER_PIXEL / 2,
+        shape.setAsBox(80 * GameScreen.M_PER_PIXEL / 2,
                 sprite.layer().height() * GameScreen.M_PER_PIXEL / 2);
 
         FixtureDef fixtureDef = new FixtureDef();
@@ -108,19 +108,15 @@ public class Boss extends Screen{
         e += delta;
         if(e > 250) {
             switch(state) {
-                case RWALK: if(!(si>=0&&si<=1)){
+                case IDLE: if(si==0){
                     si = 0;
-                }
-                    break;
-                    case LWALK:
-                        if(!(si>=2&&si<=4)){
-                            si = 2;
-                        }
-                        break;
-                    //  Bullet2 bu2 = new Bullet2(world,body.getPosition().x /GameScreen.M_PER_PIXEL +1,body.getPosition().y / GameScreen.M_PER_PIXEL-30);
-                    //GameScreen.addBullet2(bu2);break;
+                } break;
+
+
+                //  Bullet2 bu2 = new Bullet2(world,body.getPosition().x /GameScreen.M_PER_PIXEL +1,body.getPosition().y / GameScreen.M_PER_PIXEL-30);
+                //GameScreen.addBullet2(bu2);break;
             }
-            si++;
+
             sprite.setSprite(si);
             e = 0;
         }
@@ -137,7 +133,7 @@ public class Boss extends Screen{
         sprite.layer().setRotation(body.getAngle());
 
         switch (state){
-            case LWALK:
+            case IDLE:
                 body.applyForce(new Vec2(-5f, 0f), body.getPosition());
                 //Bullet2 bu2 = new Bullet2(world,body.getPosition().x /GameScreen.M_PER_PIXEL +100,body.getPosition().y / GameScreen.M_PER_PIXEL);
                 //  GameScreen.addBullet2(bu2);
@@ -150,22 +146,11 @@ public class Boss extends Screen{
         body.setActive(false);
         checkContact = true;
         sprite.layer().setVisible(false);
-        System.out.println("deee");
-        militia.ShootMilitia(contact);
+
 
     }
-    public void contact2(Contact contact){
-        contacted = true;
-        contactCheck = 0;
-        if(state == State.LWALK ){
-            state = State.LWALK;
-        }
-        if(contact.getFixtureA().getBody()==body){
-            other = contact.getFixtureB().getBody();
-        }else{
-            other = contact.getFixtureA().getBody();
-        }
-    }
+
 
 }
+
 

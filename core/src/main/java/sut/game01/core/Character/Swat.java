@@ -20,6 +20,7 @@ import sut.game01.core.sprite.SpriteLoader;
 import tripleplay.game.Screen;
 import playn.core.CanvasImage;
 import playn.core.DebugDrawBox2D;
+import tripleplay.game.ScreenStack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,6 +50,11 @@ public class Swat extends Screen{
     private boolean showDebugDraw=true;
     private float position;
 
+    private int numbullet=20;
+   private int increasenumbullet=20;
+
+
+    private  GameScreen g;
     private List<Bullet> bulletList;
     public Body getBody() {
         return body;
@@ -68,6 +74,7 @@ public class Swat extends Screen{
     public Swat(final World world, final float x, final float y) {
     this.x=x;
     this.y=y;
+
     bulletList = new ArrayList<Bullet>();
         sprite = SpriteLoader.getSprite("images/swat.json");
         sprite.addCallback(new Callback<Sprite>() {
@@ -114,11 +121,19 @@ public class Swat extends Screen{
                         }
                         break;
                     case SPACE:
-                        if(left == true) { state = State.LSHOOT; }
-                        else { state = State.RSHOOT; }
-                        //Bullet bu = new Bullet(world,body.getPosition().x /GameScreen.M_PER_PIXEL +40,body.getPosition().y / GameScreen.M_PER_PIXEL-20);
-                        //GameScreen.addBullet(bu);
-                        break;
+                       if(numbullet>0) {
+                           numbullet=numbullet-1;
+
+                        GameScreen.setNumbullet(numbullet);
+                           if (left == true) {
+                               state = State.LSHOOT;
+                           } else {
+                               state = State.RSHOOT;
+                           }
+                           //Bullet bu = new Bullet(world,body.getPosition().x /GameScreen.M_PER_PIXEL +40,body.getPosition().y / GameScreen.M_PER_PIXEL-20);
+                           //GameScreen.addBullet(bu);
+                           break;
+                       }
                 }
             }
 
@@ -142,22 +157,27 @@ public class Swat extends Screen{
                         break;
                     case SPACE:
                         Bullet bu;
-                        if(left == true) {
-                            state = State.LSHOOT;
-                            bu = new Bullet(world,
-                                    (body.getPosition().x )/ GameScreen.M_PER_PIXEL-250 ,
-                                    body.getPosition().y / GameScreen.M_PER_PIXEL-20,'L');
-                              body.applyForce(new Vec2(-10f,200f), body.getPosition());
-                            GameScreen.addBullet(bu);
-                        } else {
-                            state = State.RSHOOT;
-                            bu = new Bullet(world,
-                                    body.getPosition().x / GameScreen.M_PER_PIXEL + 55,
-                                    body.getPosition().y / GameScreen.M_PER_PIXEL-20,'R');
-                                body.applyForce(new Vec2(10f,0f), body.getPosition());
-                            GameScreen.addBullet(bu);
+                        if(numbullet>0) {
+                           // numbullet=numbullet-1;
+
+
+                            if (left == true) {
+                                state = State.LSHOOT;
+                                bu = new Bullet(world,
+                                        (body.getPosition().x) / GameScreen.M_PER_PIXEL - 250,
+                                        body.getPosition().y / GameScreen.M_PER_PIXEL - 20, 'L');
+                                body.applyForce(new Vec2(-10f, 200f), body.getPosition());
+                                GameScreen.addBullet(bu);
+                            } else {
+                                state = State.RSHOOT;
+                                bu = new Bullet(world,
+                                        body.getPosition().x / GameScreen.M_PER_PIXEL + 55,
+                                        body.getPosition().y / GameScreen.M_PER_PIXEL - 20, 'R');
+                                body.applyForce(new Vec2(10f, 0f), body.getPosition());
+                                GameScreen.addBullet(bu);
+                            }
+                            break;
                         }
-                        break;
                 }
             }
         });
