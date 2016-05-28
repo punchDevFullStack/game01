@@ -114,10 +114,10 @@ public class Swat extends Screen{
                     case UP:
                         if( left == true ){
                             state=State.LIDLE;
-                              body.applyForce(new Vec2(-5f, -700f), body.getPosition());
+                              body.applyForce(new Vec2(-1f, -700f), body.getPosition());
                         }
                         else {state = State.RIDLE;
-                             body.applyForce(new Vec2(5f, -700f), body.getPosition());
+                             body.applyForce(new Vec2(1f, -700f), body.getPosition());
                         }
                         break;
                     case SPACE:

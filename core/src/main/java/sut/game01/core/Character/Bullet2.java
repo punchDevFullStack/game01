@@ -7,6 +7,8 @@ import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.contacts.Contact;
+import playn.core.Image;
+import playn.core.ImageLayer;
 import playn.core.Layer;
 import playn.core.util.Callback;
 import playn.core.util.Clock;
@@ -27,6 +29,7 @@ public class Bullet2 extends Screen {
     private Body other;
     private World world;
     private boolean checkContact = false;
+    private ImageLayer bullet2Layer;
 
     public enum State{
         IDLE
@@ -39,26 +42,10 @@ public class Bullet2 extends Screen {
         this.x = x_px;
         this.y = y_px;
         this.world = world;
-        sprite = SpriteLoader.getSprite("images/bullet2.json");
-        sprite.addCallback(new Callback<Sprite>(){
-            @Override
-            public void onSuccess(Sprite result){
-                sprite.setSprite(spriteIndex);
-                sprite.layer().setOrigin(sprite.width() / 2f,
-                        sprite.height() / 2f);
-                sprite.layer().setTranslation(x, y + 13f);
-                body = initPhysicsBody(world, GameScreen.M_PER_PIXEL * x_px,
-                        GameScreen.M_PER_PIXEL * y_px);
 
-                hasLoaded = true;
-            }
-
-            @Override
-            public void onFailure(Throwable cause){
-                //PlayN.log().error("Error loading image!", cause);
-            }
-
-        });
+        Image bullet2Image = assets().getImage("images/bullet2.png");
+        bullet2Layer  = graphics().createImageLayer(bullet2Image);
+        body = initPhysicsBody(world, GameScreen.M_PER_PIXEL * x_px,GameScreen.M_PER_PIXEL * y_px);
 
     }
 
@@ -73,53 +60,32 @@ public class Bullet2 extends Screen {
                 10*GameScreen.M_PER_PIXEL / 2);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = 0.4f;
-        fixtureDef.friction = 5.0f;
+        fixtureDef.density = 1f;
+        fixtureDef.friction = 1000.0f;
         fixtureDef.restitution = 0.35f;
         body.createFixture(fixtureDef);
 
-        body.setLinearDamping(0.2f);
+        body.setLinearDamping(1.0f);
         body.setTransform(new Vec2(x, y), 0f);
-        body.applyLinearImpulse(new Vec2(10f,0f), body.getPosition());
+        body.applyLinearImpulse(new Vec2(-5f,0f), body.getPosition());
         return body;
     }
 
     public Layer layer(){
-        return sprite.layer();
+        return bullet2Layer;
     }
 
     public void update(int delta) {
-        if (hasLoaded == false)
-            return;
-
-        e += delta;
         if(checkContact == true){
             body.setActive(false);
             checkContact = false;
         }
-
-        if (e > 150) {
-            switch (state) {
-                case IDLE: offset = 0;
-                    if(spriteIndex == 3){
-                        state = State.IDLE;
-                        //body.setActive(false);
-                    }
-                    break;
-
-            }
-            spriteIndex = offset + ((spriteIndex + 1) % 4);
-            sprite.setSprite(spriteIndex);
-            sprite.layer().setTranslation(body.getPosition().x + 20/ GameScreen.M_PER_PIXEL,
-                    body.getPosition().y / GameScreen.M_PER_PIXEL);
-            e = 0;
-        }
     }
 
     public void paint(Clock clock){
-        if(!hasLoaded) return;
 
-        sprite.layer().setTranslation(
+
+        bullet2Layer.setTranslation(
                 (body.getPosition().x / GameScreen.M_PER_PIXEL),
                 body.getPosition().y / GameScreen.M_PER_PIXEL);
 
@@ -131,7 +97,7 @@ public class Bullet2 extends Screen {
     public void contact(Contact contact){
        // body.setActive(false);
         checkContact = true;
-        sprite.layer().setVisible(false);
+        bullet2Layer.setVisible(false);
     }
 
 

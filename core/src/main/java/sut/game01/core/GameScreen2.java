@@ -29,8 +29,8 @@ public class GameScreen2 extends Screen {
     private final ScreenStack ss;
     private final ImageLayer bgLayer;
     private final ImageLayer backButton;
-    private Swat swat;  // use swat character
-    private List<Swat> swatList ; //  use swat in list
+    private Swat swat2;  // use swat character
+    private List<Swat> swat2List ; //  use swat in list
 
     //=======================================================
     // define for world
@@ -91,9 +91,9 @@ public class GameScreen2 extends Screen {
         ground.createFixture(right_wall,0.0f);
     */
 
-        swat = new Swat(world, 80f, 400f);
+        swat2 = new Swat(world, 80f, 300f);
 
-        swatList = new ArrayList<Swat>(); // use arrayList
+        swat2List = new ArrayList<Swat>(); // use arrayList
     }
 
    // Militia m = new Militia(world,560f,400f);
@@ -102,12 +102,12 @@ public class GameScreen2 extends Screen {
         super.wasShown();
         this.layer.add(bgLayer);
         this.layer.add(backButton);
-        this.layer.add(swat.layer());
+        this.layer.add(swat2.layer());
 
         if(showDebugDraw){
             CanvasImage image = graphics().createImage(
-                    (int)(width/GameScreen.M_PER_PIXEL),
-                    (int)(height/GameScreen.M_PER_PIXEL));
+                    (int)(width/GameScreen2.M_PER_PIXEL),
+                    (int)(height/GameScreen2.M_PER_PIXEL));
             layer.add(graphics().createImageLayer(image));
             debugDraw= new DebugDrawBox2D();
             debugDraw.setCanvas(image);
@@ -118,7 +118,7 @@ public class GameScreen2 extends Screen {
             debugDraw.setFlags(DebugDraw.e_shapeBit|
                     DebugDraw.e_jointBit|DebugDraw.e_aabbBit);
 
-            debugDraw.setCamera(0,0,1f/GameScreen.M_PER_PIXEL);
+            debugDraw.setCamera(0,0,1f/GameScreen2.M_PER_PIXEL);
             world.setDebugDraw(debugDraw);
         }
      //   this.layer.add(m.layer());
@@ -127,7 +127,7 @@ public class GameScreen2 extends Screen {
     @Override
     public void update(int delta){
         super.update(delta);
-        swat.update(delta);
+        swat2.update(delta);
         world.step(0.033f,10,10);
       //  m.update(delta);
     }
@@ -135,7 +135,7 @@ public class GameScreen2 extends Screen {
     @Override
     public void paint(Clock clock){
         super.paint(clock);
-        swat.paint(clock);
+        swat2.paint(clock);
       /*  swat.paint(clock);
         henchman.paint(clock);
         militia.paint(clock);

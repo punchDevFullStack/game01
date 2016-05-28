@@ -14,6 +14,7 @@ package sut.game01.core.Character;
         import tripleplay.game.Screen;
 
 public class Henchman extends Screen{
+   // private GameScreen gameScreen = new GameScreen();
     private Militia militia;
     private Sprite sprite;
     private int si = 0;
@@ -25,6 +26,8 @@ public class Henchman extends Screen{
     private float x;
     private float y;
     private World world;
+    private Bullet2 bullet2;
+
     public Body getBody() {
         return this.body;
     }
@@ -43,6 +46,8 @@ public class Henchman extends Screen{
     public Henchman(final World world, final float x_px, final float y_px) {
         this.x = x_px;
         this.y = y_px;
+        this.world=world;
+
         sprite = SpriteLoader.getSprite("images/henchman.json");
         sprite.addCallback(new Callback<Sprite>() {
 
@@ -108,13 +113,14 @@ public class Henchman extends Screen{
         if(e > 150) {
             switch(state) {
                 case WALK: offset = 0;
-                  //  Bullet2 bu2 = new Bullet2(world,body.getPosition().x /GameScreen.M_PER_PIXEL +1,body.getPosition().y / GameScreen.M_PER_PIXEL-30);
-                    //GameScreen.addBullet2(bu2);break;
+                break;
             }
             si=offset+((si+1)%3);
             sprite.setSprite(si);
             e = 0;
         }
+        if (checkContact == true)
+            body.setActive(false);
     }
 
     @Override
@@ -122,7 +128,7 @@ public class Henchman extends Screen{
         if (!hasLoaded) return;
 
         sprite.layer().setTranslation(
-                (body.getPosition().x / GameScreen.M_PER_PIXEL) - 10,
+                (body.getPosition().x / GameScreen.M_PER_PIXEL) ,
                 body.getPosition().y / GameScreen.M_PER_PIXEL);
 
         sprite.layer().setRotation(body.getAngle());
@@ -130,19 +136,26 @@ public class Henchman extends Screen{
         switch (state){
             case WALK:
                 body.applyForce(new Vec2(-5f, 0f), body.getPosition());
-                //Bullet2 bu2 = new Bullet2(world,body.getPosition().x /GameScreen.M_PER_PIXEL +100,body.getPosition().y / GameScreen.M_PER_PIXEL);
-              //  GameScreen.addBullet2(bu2);
                 break;
 
         }
     }
 
+
+    public void shooting(){
+        if (checkContact == false){
+            bullet2 = new Bullet2(world,body.getPosition().x /GameScreen.M_PER_PIXEL -100,body.getPosition().y / GameScreen.M_PER_PIXEL-20);
+            GameScreen.shootThief(bullet2);
+        }else{
+
+        }
+
+
+    }
     public void contact(Contact contact){
-        body.setActive(false);
+        //body.setActive(false);
         checkContact = true;
         sprite.layer().setVisible(false);
-        System.out.println("deee");
-        militia.ShootMilitia(contact);
 
     }
     public void contact2(Contact contact){
