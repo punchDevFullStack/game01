@@ -31,11 +31,11 @@ public class GameScreen2 extends Screen {
 
   //  private final GameOverScreen loadGame;
     static int score;
+    static int dead;
     static int numbullet;
-    static private int numbullet3;
+    static  int numbullet3;
     private int count1 =0;
     private int count2 =0;
-    private  int dead=3;
     private boolean h=false;
     private  boolean m=false;
     private int bullet2Screen2counttime=0;
@@ -111,7 +111,7 @@ public class GameScreen2 extends Screen {
 
         SwatScreen2.setNumbullet2(numbullet3);
         score= Integer.valueOf( GameScreen.score);
-
+        dead=Integer.valueOf(GameScreen.dead);
 
         //==================================================================
         // define world
@@ -130,12 +130,12 @@ public class GameScreen2 extends Screen {
         groundShape.set(new Vec2(0, height-1.4f), new Vec2(width+3.0f, height-1.4f ));
         ground.createFixture(groundShape, 0.0f);
 
-   /*     //==================================================================
+        //==================================================================
         // insert left_wall in world
         EdgeShape left_wall = new EdgeShape();
         left_wall.set(new Vec2(0,0),new Vec2(0,height));
         ground.createFixture(left_wall,0.0f);
-
+/*
         //==================================================================
         // insert right_wall in world
         EdgeShape right_wall = new EdgeShape();
@@ -201,7 +201,7 @@ public class GameScreen2 extends Screen {
                     destroy = true;
                     swat2.layer().destroy();
                     // bu.layer().destroy();
-                  //  ss.push(loadGame);
+                    ss.push(new GameOverScreen(ss));
 
                 }
                 if((a == swat2.getBody() &&  b == gun2.getBody()) || (a == gun2.getBody() && b == swat2.getBody())){
@@ -210,6 +210,7 @@ public class GameScreen2 extends Screen {
                     destroy=true;
                     gun2.layer().destroy();
 
+                    ss.push(new GameScreen3(ss));
                 }
                 for(BulletScreen2 bu :bulletScreen2List){
 
@@ -220,10 +221,9 @@ public class GameScreen2 extends Screen {
                     if((a == bu.getBody() &&  b == henchman2.getBody()) || (a == henchman2.getBody() && b == bu.getBody())){
                         bu.contact(contact);
                         count1 = count1 +1; //henchman.contact(contact);
-                        //System.out.println(count1);
+
                         // debugString = bodies.get(a) + " contact with " + bodies.get(b);
                         if(count1==5) {
-
                             character = Character.HENCHMANSCREEN2;
                             destroy = true;h=destroy;
                             henchman2.layer().destroy();
@@ -231,8 +231,7 @@ public class GameScreen2 extends Screen {
                             henchman2.contact(contact);
                             score+=10;
                             count1=0;
-
-                            // henchman_1 = new Henchman(world,550f,400f);
+                           // ss.push(new GameScreen3(ss));
                         }
                         break;
                     }
@@ -282,7 +281,7 @@ public class GameScreen2 extends Screen {
         henchman2.update(delta);
         gun2.update(delta);
         world.step(0.033f,10,10);
-
+        GameScreen3.setNumbullet4(numbullet3);
         for(BulletScreen2 bu : bulletScreen2List){
             bu.update(delta);
             this.layer.add(bu.layer());
@@ -329,9 +328,13 @@ public class GameScreen2 extends Screen {
             debugDraw.getCanvas().clear();
             debugDraw.getCanvas().setFillColor(Color.rgb(255, 255, 255));
             debugDraw.getCanvas().drawText("Score : "+String.valueOf(score),300f,50f);
-            debugDraw.getCanvas().drawText(numbullet3+"/20",500f,50f);
-          //  debugDraw.getCanvas().drawText("Life : "+String.valueOf(dead),100f,50f);
+            debugDraw.getCanvas().drawText("Bullet : " +numbullet3,500f,50f);
+            debugDraw.getCanvas().drawText("Life : "+String.valueOf(dead),100f,50f);
             world.drawDebugData();
+            if (numbullet3 == 0 ){
+                debugDraw.getCanvas().setFillColor(Color.rgb(255, 255, 255));
+                debugDraw.getCanvas().drawText("no bullet !!!",500f,90f);
+            }
         }
     }
     public static void shootHenchmanScreen2(Bullet2Screen2 bullet2Screen2) {

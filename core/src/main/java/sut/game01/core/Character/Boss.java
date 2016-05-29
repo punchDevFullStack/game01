@@ -9,6 +9,7 @@ import playn.core.PlayN;
 import playn.core.util.Callback;
 import playn.core.util.Clock;
 import sut.game01.core.GameScreen;
+import sut.game01.core.GameScreen3;
 import sut.game01.core.sprite.Sprite;
 import sut.game01.core.sprite.SpriteLoader;
 import tripleplay.game.Screen;
@@ -33,10 +34,10 @@ public class Boss extends Screen{
 
 
     public enum State {
-        RWALK,LWALK
+        IDLE,SHOOT
     }
 
-    private State state = State.LWALK;
+    private State state = State.IDLE;
     private Body body;
     private int e = 0;
     private int si = 0;
@@ -56,8 +57,8 @@ public class Boss extends Screen{
                 sprite.layer().setTranslation(x, y + 13f);
 
                 body = initPhysicsBody(world,
-                        GameScreen.M_PER_PIXEL * x,
-                        GameScreen.M_PER_PIXEL * y);
+                        GameScreen3.M_PER_PIXEL * x,
+                        GameScreen3.M_PER_PIXEL * y);
 
                 hasLoaded = true;
             }
@@ -80,8 +81,8 @@ public class Boss extends Screen{
 
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(54 * GameScreen.M_PER_PIXEL / 2,
-                sprite.layer().height() * GameScreen.M_PER_PIXEL / 2);
+        shape.setAsBox(54 * GameScreen3.M_PER_PIXEL / 2,
+                sprite.layer().height() * GameScreen3.M_PER_PIXEL / 2);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
@@ -108,12 +109,12 @@ public class Boss extends Screen{
         e += delta;
         if(e > 250) {
             switch(state) {
-                case RWALK: if(!(si>=0&&si<=1)){
+                case IDLE: if(!(si>=0&&si<=1)){
                     si = 0;
                 }
                     break;
-                    case LWALK:
-                        if(!(si>=2&&si<=4)){
+                case SHOOT:
+                        if(!(si>=2&&si<=3)){
                             si = 2;
                         }
                         break;
@@ -131,14 +132,14 @@ public class Boss extends Screen{
         if (!hasLoaded) return;
 
         sprite.layer().setTranslation(
-                (body.getPosition().x / GameScreen.M_PER_PIXEL) - 10,
-                body.getPosition().y / GameScreen.M_PER_PIXEL);
+                (body.getPosition().x / GameScreen3.M_PER_PIXEL) - 10,
+                body.getPosition().y / GameScreen3.M_PER_PIXEL);
 
         sprite.layer().setRotation(body.getAngle());
 
         switch (state){
-            case LWALK:
-                body.applyForce(new Vec2(-5f, 0f), body.getPosition());
+            case SHOOT:
+              //  body.applyForce(new Vec2(-5f, 0f), body.getPosition());
                 //Bullet2 bu2 = new Bullet2(world,body.getPosition().x /GameScreen.M_PER_PIXEL +100,body.getPosition().y / GameScreen.M_PER_PIXEL);
                 //  GameScreen.addBullet2(bu2);
                 break;
@@ -157,8 +158,8 @@ public class Boss extends Screen{
     public void contact2(Contact contact){
         contacted = true;
         contactCheck = 0;
-        if(state == State.LWALK ){
-            state = State.LWALK;
+        if(state == State.SHOOT ){
+            state = State.IDLE;
         }
         if(contact.getFixtureA().getBody()==body){
             other = contact.getFixtureB().getBody();

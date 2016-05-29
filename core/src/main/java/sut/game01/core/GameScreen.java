@@ -30,7 +30,7 @@ public class GameScreen extends Screen{
     static int numbullet=20;
     private int count1 =0;
     private int count2 =0;
-    private  int dead=3;
+    static   int dead=3;
     private boolean h=false;
     private  boolean m=false;
 
@@ -140,13 +140,13 @@ public class GameScreen extends Screen{
         EdgeShape groundShape = new EdgeShape();
         groundShape.set(new Vec2(0, height-0.7f), new Vec2(width+3.0f, height-0.7f ));
         ground.createFixture(groundShape, 0.0f);
-/*
+
         //==================================================================
         // insert left_wall in world
         EdgeShape left_wall = new EdgeShape();
         left_wall.set(new Vec2(0,0),new Vec2(0,height));
         ground.createFixture(left_wall,0.0f);
-
+/*
         //==================================================================
         // insert right_wall in world
         EdgeShape right_wall = new EdgeShape();
@@ -430,11 +430,11 @@ public class GameScreen extends Screen{
             debugDraw.getCanvas().clear();
             debugDraw.getCanvas().setFillColor(Color.rgb(255, 255, 255));
             debugDraw.getCanvas().drawText("Score : " + String.valueOf(score),300f,50f);
-            debugDraw.getCanvas().drawText(numbullet+"/20",500f,50f);
+            debugDraw.getCanvas().drawText("Bullet : " +numbullet,500f,50f);
             debugDraw.getCanvas().drawText("Life : "+String.valueOf(dead),100f,50f);
             world.drawDebugData();
             if (numbullet == 0 ){
-                debugDraw.getCanvas().drawText("no bullet",500f,90f);
+                debugDraw.getCanvas().drawText("no bullet !!!",500f,90f);
             }
         }
     }
