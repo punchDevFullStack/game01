@@ -15,7 +15,7 @@ import sut.game01.core.sprite.Sprite;
 import sut.game01.core.sprite.SpriteLoader;
 import tripleplay.game.Screen;
 
-public class Boss extends Screen{
+public class Boy extends Screen{
 
     private Militia militia;
     private Sprite sprite;
@@ -35,7 +35,7 @@ public class Boss extends Screen{
 
 
     public enum State {
-        IDLE,SHOOT
+        IDLE,RUN
     }
 
     private State state = State.IDLE;
@@ -43,10 +43,10 @@ public class Boss extends Screen{
     private int e = 0;
     private int si = 0;
 
-    public Boss(final World world, final float x_px, final float y_px) {
+    public Boy(final World world, final float x_px, final float y_px) {
         this.x = x_px;
         this.y = y_px;
-        sprite = SpriteLoader.getSprite("images/boss.json");
+        sprite = SpriteLoader.getSprite("images/boy.json");
         sprite.addCallback(new Callback<Sprite>() {
 
             @Override
@@ -110,17 +110,17 @@ public class Boss extends Screen{
         e += delta;
         if(e > 250) {
             switch(state) {
-                case IDLE: if(!(si>=0&&si<=1)){
+                case IDLE: if(!(si>=0&&si<=6)){
                     si = 0;
                 }
                     break;
-                case SHOOT:
-                        if(!(si>=2&&si<=3)){
-                            si = 2;
-                        }
-                        break;
-                    //  Bullet2 bu2 = new Bullet2(world,body.getPosition().x /GameScreen.M_PER_PIXEL +1,body.getPosition().y / GameScreen.M_PER_PIXEL-30);
-                    //GameScreen.addBullet2(bu2);break;
+                case RUN:
+                    if(!(si>=8&&si<=12)){
+                        si = 8;
+                    }
+                    break;
+                //  Bullet2 bu2 = new Bullet2(world,body.getPosition().x /GameScreen.M_PER_PIXEL +1,body.getPosition().y / GameScreen.M_PER_PIXEL-30);
+                //GameScreen.addBullet2(bu2);break;
             }
             si++;
             sprite.setSprite(si);
@@ -141,40 +141,16 @@ public class Boss extends Screen{
         sprite.layer().setRotation(body.getAngle());
 
         switch (state){
-            case SHOOT:
-              //  body.applyForce(new Vec2(-5f, 0f), body.getPosition());
+            case RUN:
+                //  body.applyForce(new Vec2(-5f, 0f), body.getPosition());
                 //Bullet2 bu2 = new Bullet2(world,body.getPosition().x /GameScreen.M_PER_PIXEL +100,body.getPosition().y / GameScreen.M_PER_PIXEL);
                 //  GameScreen.addBullet2(bu2);
                 break;
 
         }
     }
-    public void shooting(){
-        if (checkContact == false){
-            bullet2Screen3 = new Bullet2Screen3(world,body.getPosition().x / GameScreen3.M_PER_PIXEL ,body.getPosition().y / GameScreen3.M_PER_PIXEL-20);
-            GameScreen3.shootBossScreen3(bullet2Screen3);
-        }else{
 
-        }
-    }
-    public void contact(Contact contact){
-        //body.setActive(false);
-        checkContact = true;
-        sprite.layer().setVisible(false);
 
-    }
-    public void contact2(Contact contact){
-        contacted = true;
-        contactCheck = 0;
-        if(state == State.SHOOT || state==State.IDLE){
-            state = State.IDLE;
-        }
-        if(contact.getFixtureA().getBody()==body){
-            other = contact.getFixtureB().getBody();
-        }else{
-            other = contact.getFixtureA().getBody();
-        }
-    }
 
 }
 

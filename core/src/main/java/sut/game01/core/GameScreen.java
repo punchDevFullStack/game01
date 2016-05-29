@@ -391,7 +391,7 @@ public class GameScreen extends Screen{
                 System.out.println(bullet3counttime);
 
                 if (bullet3counttime %2000 == 0) {
-               //   militia.shooting();
+                 militia.shooting();
                 }
             }
 

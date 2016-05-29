@@ -141,7 +141,7 @@ public class Militia extends Screen{
 
     public void shooting(){
         if (checkContact == false){
-            bullet3 = new Bullet3(world,body.getPosition().x / GameScreen.M_PER_PIXEL-110 ,body.getPosition().y / GameScreen.M_PER_PIXEL-20);
+            bullet3 = new Bullet3(world,body.getPosition().x / GameScreen.M_PER_PIXEL ,body.getPosition().y / GameScreen.M_PER_PIXEL);
             GameScreen.shootMilitia(bullet3);
         }else{
 
