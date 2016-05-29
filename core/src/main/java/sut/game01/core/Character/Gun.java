@@ -80,7 +80,7 @@ public class Gun extends Screen{
 
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(80 * GameScreen.M_PER_PIXEL / 2,
+        shape.setAsBox(70 * GameScreen.M_PER_PIXEL / 2,
                 sprite.layer().height() * GameScreen.M_PER_PIXEL / 2);
 
         FixtureDef fixtureDef = new FixtureDef();

@@ -4,6 +4,7 @@ import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.contacts.Contact;
+import playn.core.Game;
 import playn.core.Keyboard;
 import playn.core.Layer;
 import playn.core.PlayN;
@@ -25,6 +26,7 @@ public class Militia extends Screen{
     private float x;
     private float y;
     private  World world;
+    private Bullet3 bullet3;
     public Body getBody() {
         return this.body;
     }
@@ -68,12 +70,7 @@ public class Militia extends Screen{
         });
 
     }
-    public void ShootMilitia(Contact contact){
-        checkContact=true;
-        state = State.SHOOT;
-        System.out.println("shoot");
-        body.applyForce(new Vec2(-100f, 0f), body.getPosition());
-    }
+
     private Body initPhysicsBody(World world, float x, float y){
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyType.DYNAMIC;
@@ -88,7 +85,7 @@ public class Militia extends Screen{
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = 0.4f;
+        fixtureDef.density = 2.0f;
         fixtureDef.friction = 0.1f;
         fixtureDef.restitution = 0.35f;
         body.createFixture(fixtureDef);
@@ -118,6 +115,8 @@ public class Militia extends Screen{
             sprite.setSprite(si);
             e = 0;
         }
+        if (checkContact == true)
+            body.setActive(false);
     }
 
     @Override
@@ -125,7 +124,7 @@ public class Militia extends Screen{
         if (!hasLoaded) return;
 
         sprite.layer().setTranslation(
-                (body.getPosition().x / GameScreen.M_PER_PIXEL) - 10,
+                (body.getPosition().x / GameScreen.M_PER_PIXEL),
                 body.getPosition().y / GameScreen.M_PER_PIXEL);
 
         sprite.layer().setRotation(body.getAngle());
@@ -140,8 +139,18 @@ public class Militia extends Screen{
         }
     }
 
+    public void shooting(){
+        if (checkContact == false){
+            bullet3 = new Bullet3(world,body.getPosition().x / GameScreen.M_PER_PIXEL-110 ,body.getPosition().y / GameScreen.M_PER_PIXEL-20);
+            GameScreen.shootMilitia(bullet3);
+        }else{
+
+        }
+
+
+    }
     public void contact(Contact contact){
-        body.setActive(false);
+        //body.setActive(false);
         checkContact = true;
         sprite.layer().setVisible(false);
 

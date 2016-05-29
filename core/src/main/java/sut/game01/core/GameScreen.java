@@ -26,12 +26,13 @@ public class GameScreen extends Screen{
     private final GameScreen2 gameScreen2;
     private final GameOverScreen loadGame;
 
-    int score =0;
+    static int score = 0;
     static int numbullet=20;
-    int increasenumbullet=10;
     private int count1 =0;
     private int count2 =0;
     private  int dead=3;
+    private boolean h=false;
+    private  boolean m=false;
 
   public  static void setNumbullet(int numbullet){
       GameScreen.numbullet=numbullet;
@@ -50,7 +51,7 @@ public class GameScreen extends Screen{
     private final ScreenStack ss;
     private final ImageLayer bg;
     private final ImageLayer backButton;
-   // private final ImageLayer gun;
+
     //=======================================================
     // define for character
     private Gun gun;
@@ -68,15 +69,19 @@ public class GameScreen extends Screen{
     private  List<Militia> militiaList;
     private static List<Bullet> bulletList;
     private static List<Bullet2> bullet2List;
+    private static List<Bullet3> bullet3List;
+
+
     //=======================================================
     // define
 
     private int i = 0;
     public static HashMap<Object,String> bodies;
     public static int k = 0;
-    public static int point = 0;
+
     private int bullet2counttime=0;
-    public static String debugStringCoin = "";
+    private int bullet3counttime=0;
+
 
     //=======================================================
     // define for world
@@ -87,10 +92,10 @@ public class GameScreen extends Screen{
 
     private World world;
     private DebugDrawBox2D debugDraw;
-    private boolean showDebugDraw = false;
+    private boolean showDebugDraw =true;
 
     //=======================================================
-    private String debugString = "Hello";
+
 
     public GameScreen(final ScreenStack ss) {
         this.ss = ss;
@@ -126,6 +131,8 @@ public class GameScreen extends Screen{
         bodies =  new HashMap<Object, String>();
         bulletList = new ArrayList<Bullet>();
         bullet2List = new ArrayList<Bullet2>();
+        bullet3List = new ArrayList<Bullet3>();
+
         //==================================================================
         // insert ground in world
 
@@ -165,6 +172,7 @@ public class GameScreen extends Screen{
    //     militia_3 = new Militia(world,570f,400f);
         militiaList = new ArrayList<Militia>();
         bullet2List =new ArrayList<Bullet2>();
+        bullet3List =new ArrayList<Bullet3>();
         gun = new Gun(world,450f,260f);
 
     }
@@ -239,11 +247,10 @@ public class GameScreen extends Screen{
 
                 }
                 if((a == swat.getBody() &&  b == gun.getBody()) || (a == gun.getBody() && b == swat.getBody())){
-                    numbullet=numbullet+increasenumbullet;
+                    numbullet=numbullet+10;
                     character = Character.GUN;
                     destroy=true;
                     gun.layer().destroy();
-
 
                 }
                 for(Bullet bu :bulletList){
@@ -258,10 +265,12 @@ public class GameScreen extends Screen{
                         //System.out.println(count1);
                        // debugString = bodies.get(a) + " contact with " + bodies.get(b);
                         if(count1==3) {
+
                             character = Character.HENCHMAN;
-                            destroy = true;
+                            destroy = true;h=destroy;
                             henchman.layer().destroy();
                             // bu.layer().destroy();
+                            henchman.contact(contact);
                             score+=10;
                             count1=0;
 
@@ -275,13 +284,15 @@ public class GameScreen extends Screen{
                         //henchman.contact(contact);
                         //debugString = bodies.get(a) + " contact with " + bodies.get(b);
                         if(count2==4) {
+
                             character = Character.MILITIA;
-                            destroy = true;
+                            destroy = true; m=destroy;
                             militia.layer().destroy();
                             // bu.layer().destroy();
                             count2=0;
                             score+=10;
-                        //    ss.push(new GameScreen2(ss));
+                            GameScreen2.setNumbullet1(numbullet);
+                            ss.push(new GameScreen2(ss));
                         }break;
                     }
 
@@ -289,6 +300,22 @@ public class GameScreen extends Screen{
                 for(Bullet2 bu2 :bullet2List){
                     if((a == bu2.getBody() &&  b == swat.getBody()) || (a == swat.getBody() && b == bu2.getBody())){
                         bu2.contact(contact);
+                        dead=dead-1;
+                        if(dead==0) {
+                            //henchman.contact(contact);
+                            character = Character.SWAT;
+                            destroy = true;
+                            swat.layer().destroy();
+                            // bu.layer().destroy();
+                            ss.push(new GameOverScreen(ss));
+                        }break;
+
+                    }
+
+                }
+                for(Bullet3 bu3 :bullet3List){
+                    if((a == bu3.getBody() &&  b == swat.getBody()) || (a == swat.getBody() && b == bu3.getBody())){
+                        bu3.contact(contact);
                         dead=dead-1;
                         if(dead==0) {
                             //henchman.contact(contact);
@@ -338,6 +365,10 @@ public class GameScreen extends Screen{
             bu2.update(delta);
             this.layer.add(bu2.layer());
         }
+        for(Bullet3 bu3 : bullet3List){
+            bu3.update(delta);
+            this.layer.add(bu3.layer());
+        }
         if (destroy==true){
             switch (character){
                 case SWAT: world.destroyBody(swat.getBody()); break;
@@ -346,6 +377,30 @@ public class GameScreen extends Screen{
                 case GUN: world.destroyBody(gun.getBody()); break;
             }
         }
+
+            if(h==false){
+                bullet2counttime += 20;
+                System.out.println(bullet2counttime);
+
+                if (bullet2counttime % 2000 == 0) {
+                    henchman.shooting();
+                }
+            }
+            if(m==false){
+                bullet3counttime +=10;
+                System.out.println(bullet3counttime);
+
+                if (bullet3counttime %2000 == 0) {
+               //   militia.shooting();
+                }
+            }
+
+            if(h==true){
+                bullet2counttime=0; System.out.println(bullet2counttime);
+            }
+            if(m==true){
+                bullet3counttime=0;System.out.println(bullet3counttime);
+            }
 
     }
 
@@ -360,12 +415,6 @@ public class GameScreen extends Screen{
         militia.paint(clock);
         gun.paint(clock);
 
-        bullet2counttime+=20;
-        System.out.println(bullet2counttime);
-
-        if(bullet2counttime %2000==0){
-            henchman.shooting();
-        }
 
        // henchman_1.paint(clock);
         for(Bullet bu : bulletList){
@@ -373,6 +422,9 @@ public class GameScreen extends Screen{
         }
         for(Bullet2 bu2 : bullet2List){
             bu2.paint(clock);
+        }
+        for(Bullet3 bu3 : bullet3List){
+            bu3.paint(clock);
         }
         if(showDebugDraw){
             debugDraw.getCanvas().clear();
@@ -386,15 +438,21 @@ public class GameScreen extends Screen{
             }
         }
     }
-    public static void shootThief(Bullet2 bullet2) {
+    public static void shootHenchman(Bullet2 bullet2) {
         bullet2List.add(bullet2);
+    }
+    public static void shootMilitia(Bullet3 bullet3) {
+        bullet3List.add(bullet3);
     }
     public static void addBullet(Bullet bu){
         bulletList.add(bu);
     }
     public static void addBullet2(Bullet2 bu2){
         bullet2List.add(bu2);
-    }  
+    }
+    public static void addBullet3(Bullet3 bu3){
+        bullet3List.add(bu3);
+    }
 }
 
 

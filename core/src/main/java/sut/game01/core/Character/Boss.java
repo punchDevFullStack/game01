@@ -151,7 +151,7 @@ public class Boss extends Screen{
         checkContact = true;
         sprite.layer().setVisible(false);
         System.out.println("deee");
-        militia.ShootMilitia(contact);
+       // militia.ShootMilitia(contact);
 
     }
     public void contact2(Contact contact){

@@ -1,23 +1,24 @@
 package sut.game01.core.Character;
 
-        import org.jbox2d.collision.shapes.PolygonShape;
-        import org.jbox2d.common.Vec2;
-        import org.jbox2d.dynamics.*;
-        import org.jbox2d.dynamics.contacts.Contact;
-        import playn.core.Layer;
-        import playn.core.PlayN;
-        import playn.core.util.Callback;
-        import playn.core.util.Clock;
-        import sut.game01.core.GameScreen;
-        import sut.game01.core.sprite.Sprite;
-        import sut.game01.core.sprite.SpriteLoader;
-        import tripleplay.game.Screen;
+import org.jbox2d.collision.shapes.PolygonShape;
+import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.*;
+import org.jbox2d.dynamics.contacts.Contact;
+import playn.core.Layer;
+import playn.core.PlayN;
+import playn.core.util.Callback;
+import playn.core.util.Clock;
+import sut.game01.core.GameScreen;
+import sut.game01.core.GameScreen2;
+import sut.game01.core.sprite.Sprite;
+import sut.game01.core.sprite.SpriteLoader;
+import tripleplay.game.Screen;
 
-public class Henchman extends Screen{
-   // private GameScreen gameScreen = new GameScreen();
-    private Militia militia;
+public class GunScreen2 extends Screen{
+
+
     private Sprite sprite;
-    private int si = 0;
+
     private boolean hasLoaded = false;
     private boolean checkContact = false;
     private boolean contacted;
@@ -26,7 +27,6 @@ public class Henchman extends Screen{
     private float x;
     private float y;
     private World world;
-    private Bullet2 bullet2;
 
     public Body getBody() {
         return this.body;
@@ -34,21 +34,18 @@ public class Henchman extends Screen{
 
 
     public enum State {
-        WALK
+        IDLE
     }
 
-    private State state = State.WALK;
-
+    private State state = State.IDLE;
     private Body body;
-
     private int e = 0;
-    private int offset =0;
-    public Henchman(final World world, final float x_px, final float y_px) {
+    private int si = 0;
+
+    public GunScreen2(final World world, final float x_px, final float y_px) {
         this.x = x_px;
         this.y = y_px;
-        this.world=world;
-
-        sprite = SpriteLoader.getSprite("images/henchman.json");
+        sprite = SpriteLoader.getSprite("images/gun.json");
         sprite.addCallback(new Callback<Sprite>() {
 
             @Override
@@ -60,8 +57,8 @@ public class Henchman extends Screen{
                 sprite.layer().setTranslation(x, y + 13f);
 
                 body = initPhysicsBody(world,
-                        GameScreen.M_PER_PIXEL * x,
-                        GameScreen.M_PER_PIXEL * y);
+                        GameScreen2.M_PER_PIXEL * x,
+                        GameScreen2.M_PER_PIXEL * y);
 
                 hasLoaded = true;
             }
@@ -77,15 +74,15 @@ public class Henchman extends Screen{
 
     private Body initPhysicsBody(World world, float x, float y){
         BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyType.DYNAMIC;
+        bodyDef.type = BodyType.STATIC;
         bodyDef.position = new Vec2(0, 0);
         Body body = world.createBody(bodyDef);
 
 
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(54 * GameScreen.M_PER_PIXEL / 2,
-                sprite.layer().height() * GameScreen.M_PER_PIXEL / 2);
+        shape.setAsBox(70 * GameScreen2.M_PER_PIXEL / 2,
+                sprite.layer().height() * GameScreen2.M_PER_PIXEL / 2);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
@@ -110,17 +107,16 @@ public class Henchman extends Screen{
 
 
         e += delta;
-        if(e > 150) {
+        if(e > 250) {
             switch(state) {
-                case WALK: offset = 0;
-                break;
+                case IDLE: if(si==0){
+                    si = 0;
+                } break;
             }
-            si=offset+((si+1)%3);
+
             sprite.setSprite(si);
             e = 0;
         }
-        if (checkContact == true)
-            body.setActive(false);
     }
 
     @Override
@@ -128,48 +124,27 @@ public class Henchman extends Screen{
         if (!hasLoaded) return;
 
         sprite.layer().setTranslation(
-                (body.getPosition().x / GameScreen.M_PER_PIXEL) ,
-                body.getPosition().y / GameScreen.M_PER_PIXEL);
+                (body.getPosition().x / GameScreen2.M_PER_PIXEL) - 10,
+                body.getPosition().y / GameScreen2.M_PER_PIXEL);
 
         sprite.layer().setRotation(body.getAngle());
 
         switch (state){
-            case WALK:
+            case IDLE:
                 body.applyForce(new Vec2(-5f, 0f), body.getPosition());
                 break;
-
         }
     }
 
-
-    public void shooting(){
-        if (checkContact == false){
-            bullet2 = new Bullet2(world,body.getPosition().x /GameScreen.M_PER_PIXEL -150,body.getPosition().y / GameScreen.M_PER_PIXEL-20);
-            GameScreen.shootHenchman(bullet2);
-        }else{
-
-        }
-
-
-    }
     public void contact(Contact contact){
-        //body.setActive(false);
+        body.setActive(false);
         checkContact = true;
         sprite.layer().setVisible(false);
 
-    }
-    public void contact2(Contact contact){
-        contacted = true;
-        contactCheck = 0;
-        if(state == State.WALK ){
-            state = State.WALK;
-        }
-        if(contact.getFixtureA().getBody()==body){
-            other = contact.getFixtureB().getBody();
-        }else{
-            other = contact.getFixtureA().getBody();
-        }
+
     }
 
+
 }
+
 

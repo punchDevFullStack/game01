@@ -31,8 +31,14 @@ import static playn.core.PlayN.graphics;
 import static sut.game01.core.GameScreen.bodies;
 
 
-public class Swat extends Screen{
-
+public class SwatScreen2 extends Screen{
+    public  static void setNumbullet2(int numbullet){
+        SwatScreen2.numbullet2=numbullet;
+    }
+    public static int getNumbullet2(){
+        return numbullet2;
+    }
+    private static int numbullet2;
     private Sprite sprite;
     private int si = 0;
     private boolean hasLoaded = false;
@@ -57,27 +63,27 @@ public class Swat extends Screen{
 
 
     private  GameScreen g;
-    private List<Bullet> bulletList;
+    private List<BulletScreen2> bulletScreen2List;
     public Body getBody() {
         return body;
     }
 
 
     public enum State {
-       RIDLE,LWALK,RWALK,RSHOOT,LIDLE,LSHOOT
+        RIDLE,LWALK,RWALK,RSHOOT,LIDLE,LSHOOT
     }
     private State state = State.RIDLE;
     private boolean left=false;
     private Body body;
 
     private int e = 0;
-  //  private int offset = 0;
+    //  private int offset = 0;
 
-    public Swat(final World world, final float x, final float y) {
-    this.x=x;
-    this.y=y;
+    public SwatScreen2(final World world, final float x, final float y) {
+        this.x=x;
+        this.y=y;
 
-    bulletList = new ArrayList<Bullet>();
+        bulletScreen2List = new ArrayList<BulletScreen2>();
         sprite = SpriteLoader.getSprite("images/swat.json");
         sprite.addCallback(new Callback<Sprite>() {
 
@@ -90,8 +96,8 @@ public class Swat extends Screen{
                 sprite.layer().setTranslation(x, y + 13f);
 
                 body = initPhysicsBody(world,
-                        GameScreen.M_PER_PIXEL * x,
-                        GameScreen.M_PER_PIXEL * y);
+                        GameScreen2.M_PER_PIXEL * x,
+                        GameScreen2.M_PER_PIXEL * y);
                 hasLoaded = true;
             }
 
@@ -116,23 +122,23 @@ public class Swat extends Screen{
                     case UP:
                         if( left == true ){
                             state=State.LIDLE;
-                              body.applyForce(new Vec2(-1f, -700f), body.getPosition());
+                            body.applyForce(new Vec2(-1f, -700f), body.getPosition());
                         }
                         else {state = State.RIDLE;
-                             body.applyForce(new Vec2(1f, -700f), body.getPosition());
+                            body.applyForce(new Vec2(1f, -700f), body.getPosition());
                         }
                         break;
                     case SPACE:
-                       if(numbullet>0) {
-                           numbullet=numbullet-1;
-                        GameScreen.setNumbullet(numbullet);
-                           if (left == true) {
-                               state = State.LSHOOT;
-                           } else {
-                               state = State.RSHOOT;
-                           }
-                           break;
-                       }
+                        if(numbullet2>0) {
+                            numbullet2=numbullet2-1;
+                            GameScreen2.setNumbullet3(numbullet2);
+                            if (left == true) {
+                                state = State.LSHOOT;
+                            } else {
+                                state = State.RSHOOT;
+                            }
+                            break;
+                        }
 
                 }
             }
@@ -156,23 +162,23 @@ public class Swat extends Screen{
                         else { state = State.RIDLE; }
                         break;
                     case SPACE:
-                        Bullet bu;
-                        if(numbullet>0) {
+                        BulletScreen2 bu;
+                        if(numbullet2>0) {
 
                             if (left == true) {
                                 state = State.LSHOOT;
-                                bu = new Bullet(world,
-                                        (body.getPosition().x) / GameScreen.M_PER_PIXEL - 250,
-                                        body.getPosition().y / GameScreen.M_PER_PIXEL - 20, 'L');
+                                bu = new BulletScreen2(world,
+                                        (body.getPosition().x) / GameScreen2.M_PER_PIXEL - 250,
+                                        body.getPosition().y / GameScreen2.M_PER_PIXEL - 20, 'L');
                                 body.applyForce(new Vec2(-10f, 200f), body.getPosition());
-                                GameScreen.addBullet(bu);
+                                GameScreen2.addBulletScreen2(bu);
                             } else {
                                 state = State.RSHOOT;
-                                bu = new Bullet(world,
-                                        body.getPosition().x / GameScreen.M_PER_PIXEL + 55,
-                                        body.getPosition().y / GameScreen.M_PER_PIXEL - 20, 'R');
+                                bu = new BulletScreen2(world,
+                                        body.getPosition().x / GameScreen2.M_PER_PIXEL + 55,
+                                        body.getPosition().y / GameScreen2.M_PER_PIXEL - 20, 'R');
                                 body.applyForce(new Vec2(10f, 0f), body.getPosition());
-                                GameScreen.addBullet(bu);
+                                GameScreen2.addBulletScreen2(bu);
                             }
                             break;
                         }
@@ -195,8 +201,8 @@ public class Swat extends Screen{
         GameScreen2.j++ ;
 */
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(54 * GameScreen.M_PER_PIXEL / 2,
-                sprite.layer().height()*GameScreen.M_PER_PIXEL / 2);
+        shape.setAsBox(54 * GameScreen2.M_PER_PIXEL / 2,
+                sprite.layer().height()*GameScreen2.M_PER_PIXEL / 2);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
@@ -225,27 +231,27 @@ public class Swat extends Screen{
                 case RIDLE:
                     if(!(si>=0&&si<=0)){
                         si = 0;
-                    }  
+                    }
                     break;
-                case RWALK: 
+                case RWALK:
                     if(!(si>=3&&si<=4)){
                         si = 3;
-                    } 
+                    }
                     break;
                 case RSHOOT:
-                      if(!(si>=5&&si<=7)){
+                    if(!(si>=5&&si<=7)){
                         si = 5;
                     }
                     break;
                 case LIDLE:
-                      if(!(si>=8&&si<=8)){
+                    if(!(si>=8&&si<=8)){
                         si = 8;
                     }
-                    break; 
-                case LWALK: 
+                    break;
+                case LWALK:
                     if(!(si>=11&&si<=13)){
                         si = 11;
-                    } 
+                    }
                     break;
                 case LSHOOT:
                     if(!(si>=14&&si<=15)){
@@ -264,9 +270,9 @@ public class Swat extends Screen{
         if (!hasLoaded) return;
 
         sprite.layer().setTranslation(
-                (body.getPosition().x / GameScreen.M_PER_PIXEL) - 10,
-                body.getPosition().y / GameScreen.M_PER_PIXEL);
-        
+                (body.getPosition().x / GameScreen2.M_PER_PIXEL) - 10,
+                body.getPosition().y / GameScreen2.M_PER_PIXEL);
+
         sprite.layer().setRotation(body.getAngle());
 
         switch (state){
@@ -279,8 +285,8 @@ public class Swat extends Screen{
                 left=false;
                 body.applyForce(new Vec2(10f, 0f), body.getPosition());
                 break;
-        
-            }
+
+        }
 
     }
 
