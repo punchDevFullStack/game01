@@ -40,6 +40,7 @@ public class GameScreen3 extends Screen {
     private List<Boss> bossList;
     private static List<BulletScreen3> bulletScreen3List;
     private static List<Bullet2Screen3> bullet2Screen3List;
+    private Bullet2Screen3 bullet2Screen3;
     //=======================================================
     // define for world
 
@@ -255,7 +256,7 @@ public class GameScreen3 extends Screen {
             System.out.println(bullet2Screen3counttime);
 
             if (bullet2Screen3counttime % 2000 == 0) {
-                boss.shooting();
+                shooting();
             }
         }
         if(h==true){
@@ -306,5 +307,10 @@ public class GameScreen3 extends Screen {
     }
     public static void addBullet2Screen3(Bullet2Screen3 bu2){
         bullet2Screen3List.add(bu2);
+    }
+    public void shooting(){
+            bullet2Screen3 = new Bullet2Screen3(world,boss.body.getPosition().x / GameScreen3.M_PER_PIXEL-150 ,boss.body.getPosition().y / GameScreen3.M_PER_PIXEL-20);
+            GameScreen3.shootBossScreen3(bullet2Screen3);
+
     }
 }

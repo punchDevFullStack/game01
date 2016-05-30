@@ -40,7 +40,7 @@ public class HenchmanScreen2 extends Screen{
 
     private State state = State.WALK;
 
-    private Body body;
+    public Body body;
 
     private int e = 0;
     private int offset =0;
@@ -143,7 +143,7 @@ public class HenchmanScreen2 extends Screen{
     }
 
 
-    public void shooting(){
+   /* public void shooting(){
         if (checkContact == false){
             bullet2Screen2 = new Bullet2Screen2(world,body.getPosition().x /GameScreen2.M_PER_PIXEL -150,body.getPosition().y / GameScreen2.M_PER_PIXEL-20);
             GameScreen2.shootHenchmanScreen2(bullet2Screen2);
@@ -152,7 +152,7 @@ public class HenchmanScreen2 extends Screen{
         }
 
 
-    }
+    }*/
     public void contact(Contact contact){
         //body.setActive(false);
         checkContact = true;

@@ -38,7 +38,7 @@ public class Militia extends Screen{
 
     private State state = State.IDLE;
 
-    private Body body;
+    public Body body;
 
     private int e = 0;
     private int offset =0;
@@ -139,16 +139,14 @@ public class Militia extends Screen{
         }
     }
 
-    public void shooting(){
+ /*   public void shooting(){
         if (checkContact == false){
             bullet3 = new Bullet3(world,body.getPosition().x / GameScreen.M_PER_PIXEL ,body.getPosition().y / GameScreen.M_PER_PIXEL);
             GameScreen.shootMilitia(bullet3);
         }else{
 
         }
-
-
-    }
+    }*/
     public void contact(Contact contact){
         //body.setActive(false);
         checkContact = true;

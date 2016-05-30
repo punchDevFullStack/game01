@@ -39,7 +39,7 @@ public class Boss extends Screen{
     }
 
     private State state = State.IDLE;
-    private Body body;
+    public   Body body;
     private int e = 0;
     private int si = 0;
 
@@ -149,14 +149,14 @@ public class Boss extends Screen{
 
         }
     }
-    public void shooting(){
+ /*   public void shooting(){
         if (checkContact == false){
             bullet2Screen3 = new Bullet2Screen3(world,body.getPosition().x / GameScreen3.M_PER_PIXEL ,body.getPosition().y / GameScreen3.M_PER_PIXEL-20);
             GameScreen3.shootBossScreen3(bullet2Screen3);
         }else{
 
         }
-    }
+    }*/
     public void contact(Contact contact){
         //body.setActive(false);
         checkContact = true;

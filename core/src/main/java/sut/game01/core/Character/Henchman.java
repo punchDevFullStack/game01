@@ -39,7 +39,7 @@ public class Henchman extends Screen{
 
     private State state = State.WALK;
 
-    private Body body;
+    public Body body;
 
     private int e = 0;
     private int offset =0;
@@ -142,16 +142,13 @@ public class Henchman extends Screen{
     }
 
 
-    public void shooting(){
+/*    public void shooting(){
         if (checkContact == false){
             bullet2 = new Bullet2(world,body.getPosition().x /GameScreen.M_PER_PIXEL -150,body.getPosition().y / GameScreen.M_PER_PIXEL-20);
             GameScreen.shootHenchman(bullet2);
         }else{
-
         }
-
-
-    }
+    }*/
     public void contact(Contact contact){
         //body.setActive(false);
         checkContact = true;

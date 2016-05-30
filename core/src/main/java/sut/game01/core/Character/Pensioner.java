@@ -38,7 +38,7 @@ public class Pensioner extends Screen{
         JUMP,RUN
     }
 
-    private State state = State.RUN;
+    private State state = State.JUMP;
     private Body body;
     private int e = 0;
     private int si = 0;
@@ -141,6 +141,8 @@ public class Pensioner extends Screen{
         sprite.layer().setRotation(body.getAngle());
 
         switch (state){
+            case JUMP:
+                body.applyForce(new Vec2(-5f, 0f), body.getPosition());
             case RUN:
                 //  body.applyForce(new Vec2(-5f, 0f), body.getPosition());
                 //Bullet2 bu2 = new Bullet2(world,body.getPosition().x /GameScreen.M_PER_PIXEL +100,body.getPosition().y / GameScreen.M_PER_PIXEL);
@@ -167,8 +169,7 @@ public class Pensioner extends Screen{
         contacted = true;
         contactCheck = 0;
         if(state == State.RUN || state==State.JUMP){
-            state = State.RUN;
-        }
+            state = State.JUMP; }
         if(contact.getFixtureA().getBody()==body){
             other = contact.getFixtureB().getBody();
         }else{

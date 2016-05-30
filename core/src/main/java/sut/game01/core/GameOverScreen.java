@@ -1,8 +1,16 @@
 package sut.game01.core;
 
-import playn.core.Image;
-import playn.core.ImageLayer;
-import playn.core.Mouse;
+import org.jbox2d.callbacks.ContactImpulse;
+import org.jbox2d.callbacks.ContactListener;
+import org.jbox2d.callbacks.DebugDraw;
+import org.jbox2d.collision.Manifold;
+import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.World;
+import org.jbox2d.dynamics.contacts.Contact;
+import playn.core.*;
+import playn.core.util.Clock;
+import sut.game01.core.Character.Bullet2Screen3;
+import sut.game01.core.Character.BulletScreen3;
 import tripleplay.game.Screen;
 import tripleplay.game.ScreenStack;
 
@@ -16,6 +24,16 @@ public class GameOverScreen extends Screen {
     private final ImageLayer mainLayer;
     private final GameScreen2 gameScreen2;
 
+    static int score;
+
+    //=======================================================
+    // define for world
+    public static float M_PER_PIXEL = 1 / 26.666667f ;
+    private static int width = 24;
+    private  static  int height = 1;
+    private DebugDrawBox2D debugDraw;
+    private boolean showDebugDraw = true;
+    private World world;
 
     public GameOverScreen(final ScreenStack ss) {
         this.ss = ss;
@@ -48,11 +66,7 @@ public class GameOverScreen extends Screen {
             }
         });
 
-   
-
-
-
-
+        score = Integer.valueOf(GameScreen.score);
 
     }
 
@@ -63,6 +77,16 @@ public class GameOverScreen extends Screen {
         this.layer.add(bgLayer);
         this.layer.add(retryLayer);
         this.layer.add(mainLayer);
- 
+
+
+}
+    @Override
+    public void update(int delta){
+        super.update(delta);
+    }
+    @Override
+    public void paint(Clock clock){
+        super.paint(clock);
+
     }
 }

@@ -34,7 +34,7 @@ public class GameScreen extends Screen{
     private boolean h=false;
     private  boolean m=false;
 
-  public  static void setNumbullet(int numbullet){
+    public  static void setNumbullet(int numbullet){
       GameScreen.numbullet=numbullet;
   }
 
@@ -70,11 +70,12 @@ public class GameScreen extends Screen{
     private static List<Bullet> bulletList;
     private static List<Bullet2> bullet2List;
     private static List<Bullet3> bullet3List;
-
+    private Bullet3 bullet3;
+    private Bullet2 bullet2;
 
     //=======================================================
     // define
-
+    private int check=0;
     private int i = 0;
     public static HashMap<Object,String> bodies;
     public static int k = 0;
@@ -166,7 +167,7 @@ public class GameScreen extends Screen{
      //   henchman_2 = new Henchman(world,550f,400f);
     //    henchman_3 = new Henchman(world,550f,400f);
         henchmanList = new ArrayList<Henchman>();
-         militia = new Militia(world,500f,400f);
+
     //    militia_1 = new Militia(world,570f,400f);
    //     militia_2 = new Militia(world,570f,400f);
    //     militia_3 = new Militia(world,570f,400f);
@@ -174,7 +175,9 @@ public class GameScreen extends Screen{
         bullet2List =new ArrayList<Bullet2>();
         bullet3List =new ArrayList<Bullet3>();
         gun = new Gun(world,450f,260f);
-
+      //  if(check==1){
+        militia = new Militia(world,500f,400f);
+        //}
     }
 
     @Override
@@ -185,9 +188,12 @@ public class GameScreen extends Screen{
         this.layer.add(backButton);
         this.layer.add(swat.layer());
         this.layer.add(henchman.layer());
-        this.layer.add(militia.layer());
+
         this.layer.add(gun.layer());
-        //this.layer.add(henchman_1.layer());
+      //  if(check==1) {
+            this.layer.add(militia.layer());
+     //   }
+        
         //============================================================
         // debug mode
 
@@ -273,6 +279,7 @@ public class GameScreen extends Screen{
                             henchman.contact(contact);
                             score+=10;
                             count1=0;
+                            check=1;
 
                            // henchman_1 = new Henchman(world,550f,400f);
                         }
@@ -354,9 +361,12 @@ public class GameScreen extends Screen{
         swat.update(delta);
         world.step(0.033f,10,10);
         henchman.update(delta);
-        militia.update(delta);
+
         gun.update(delta);
-       // henchman_1.update(delta);
+      //  if(check==0) {
+            militia.update(delta);  // henchman_1.update(delta);
+       // }
+
         for(Bullet bu : bulletList){
             bu.update(delta);
             this.layer.add(bu.layer());
@@ -383,7 +393,7 @@ public class GameScreen extends Screen{
                 System.out.println(bullet2counttime);
 
                 if (bullet2counttime % 2000 == 0) {
-                    henchman.shooting();
+                    shooting();
                 }
             }
             if(m==false){
@@ -391,7 +401,7 @@ public class GameScreen extends Screen{
                 System.out.println(bullet3counttime);
 
                 if (bullet3counttime %2000 == 0) {
-                 militia.shooting();
+                 shooting1();
                 }
             }
 
@@ -412,11 +422,12 @@ public class GameScreen extends Screen{
 
         swat.paint(clock);
         henchman.paint(clock);
-        militia.paint(clock);
         gun.paint(clock);
 
-
-       // henchman_1.paint(clock);
+       // if(check==0) {
+            militia.paint(clock);
+    //    }
+        // henchman_1.paint(clock);
         for(Bullet bu : bulletList){
             bu.paint(clock);
         }
@@ -453,6 +464,15 @@ public class GameScreen extends Screen{
     public static void addBullet3(Bullet3 bu3){
         bullet3List.add(bu3);
     }
+    public void shooting() {
+        bullet2 = new Bullet2(world, henchman.body.getPosition().x / GameScreen.M_PER_PIXEL - 150, henchman.body.getPosition().y / GameScreen.M_PER_PIXEL - 20);
+        GameScreen.shootHenchman(bullet2);
+    }
+    public void shooting1(){
+        bullet3 = new Bullet3(world,militia.body.getPosition().x / GameScreen.M_PER_PIXEL-150 ,militia.body.getPosition().y / GameScreen.M_PER_PIXEL-20);
+        GameScreen.shootMilitia(bullet3);
+    }
+
 }
 
 
