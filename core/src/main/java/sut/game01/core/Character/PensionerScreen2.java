@@ -9,12 +9,13 @@ import playn.core.PlayN;
 import playn.core.util.Callback;
 import playn.core.util.Clock;
 import sut.game01.core.GameScreen;
+import sut.game01.core.GameScreen2;
 import sut.game01.core.GameScreen3;
 import sut.game01.core.sprite.Sprite;
 import sut.game01.core.sprite.SpriteLoader;
 import tripleplay.game.Screen;
 
-public class Pensioner extends Screen{
+public class PensionerScreen2 extends Screen{
 
     private Militia militia;
     private Sprite sprite;
@@ -27,7 +28,7 @@ public class Pensioner extends Screen{
     private float x;
     private float y;
     private World world;
-    private Bullet4 bullet4;
+    private Bullet2Screen3 bullet2Screen3;
     public Body getBody() {
         return this.body;
     }
@@ -42,7 +43,7 @@ public class Pensioner extends Screen{
     private int e = 0;
     private int si = 0;
 
-    public Pensioner(final World world, final float x_px, final float y_px) {
+    public PensionerScreen2(final World world, final float x_px, final float y_px) {
         this.x = x_px;
         this.y = y_px;
         sprite = SpriteLoader.getSprite("images/pensioner.json");
@@ -57,8 +58,8 @@ public class Pensioner extends Screen{
                 sprite.layer().setTranslation(x, y + 13f);
 
                 body = initPhysicsBody(world,
-                        GameScreen.M_PER_PIXEL * x,
-                        GameScreen.M_PER_PIXEL * y);
+                        GameScreen3.M_PER_PIXEL * x,
+                        GameScreen3.M_PER_PIXEL * y);
 
                 hasLoaded = true;
             }
@@ -81,8 +82,8 @@ public class Pensioner extends Screen{
 
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(54 * GameScreen.M_PER_PIXEL / 2,
-                sprite.layer().height() * GameScreen.M_PER_PIXEL / 2);
+        shape.setAsBox(54 * GameScreen3.M_PER_PIXEL / 2,
+                sprite.layer().height() * GameScreen3.M_PER_PIXEL / 2);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
@@ -134,8 +135,8 @@ public class Pensioner extends Screen{
         if (!hasLoaded) return;
 
         sprite.layer().setTranslation(
-                (body.getPosition().x / GameScreen.M_PER_PIXEL) - 10,
-                body.getPosition().y / GameScreen.M_PER_PIXEL);
+                (body.getPosition().x / GameScreen3.M_PER_PIXEL) - 10,
+                body.getPosition().y / GameScreen3.M_PER_PIXEL);
 
         sprite.layer().setRotation(body.getAngle());
 
@@ -152,8 +153,8 @@ public class Pensioner extends Screen{
     }
     public void shooting(){
         if (checkContact == false){
-            bullet4 = new Bullet4(world,body.getPosition().x / GameScreen.M_PER_PIXEL ,body.getPosition().y / GameScreen.M_PER_PIXEL-20);
-            GameScreen.shootPensioner(bullet4);
+            bullet2Screen3 = new Bullet2Screen3(world,body.getPosition().x / GameScreen3.M_PER_PIXEL ,body.getPosition().y / GameScreen3.M_PER_PIXEL-20);
+            GameScreen3.shootBossScreen3(bullet2Screen3);
         }else{
 
         }

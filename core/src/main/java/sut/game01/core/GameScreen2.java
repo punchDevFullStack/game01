@@ -1,5 +1,4 @@
 package sut.game01.core;
-import static playn.core.PlayN.*;
 
 import org.jbox2d.callbacks.ContactImpulse;
 import org.jbox2d.callbacks.ContactListener;
@@ -79,7 +78,7 @@ public class GameScreen2 extends Screen {
     private static List<Bullet2Screen2> bullet2Screen2List;
   //  private static List<Bullet3> bullet3List;
     private Bullet2Screen2 bullet2Screen2;
-    private Pensioner pensioner;
+    private PensionerScreen2 pensionerScreen2;
     //=======================================================
     // define for world
 
@@ -149,7 +148,7 @@ public class GameScreen2 extends Screen {
         bulletScreen2List =new ArrayList<BulletScreen2>();
         bullet2Screen2List =new ArrayList<Bullet2Screen2>();
         gun2 =  new GunScreen2(world,550f,300f);
-        pensioner = new Pensioner(world,550f,400f);
+        pensionerScreen2 = new PensionerScreen2(world,550f,400f);
     }
 
 
@@ -162,7 +161,7 @@ public class GameScreen2 extends Screen {
         this.layer.add(swat2.layer());
         this.layer.add(henchman2.layer());
         this.layer.add(gun2.layer());
-        this.layer.add(pensioner.layer());
+        this.layer.add(pensionerScreen2.layer());
 
         if(showDebugDraw){
             CanvasImage image = graphics().createImage(
@@ -282,7 +281,7 @@ public class GameScreen2 extends Screen {
         swat2.update(delta);
         henchman2.update(delta);
         gun2.update(delta);
-        pensioner.update(delta);
+        pensionerScreen2.update(delta);
         world.step(0.033f,10,10);
         GameScreen3.setNumbullet4(numbullet3);
         for(BulletScreen2 bu : bulletScreen2List){
@@ -320,7 +319,7 @@ public class GameScreen2 extends Screen {
         swat2.paint(clock);
         henchman2.paint(clock);
         gun2.paint(clock);
-        pensioner.paint(clock);
+        pensionerScreen2.paint(clock);
         for(BulletScreen2 bu : bulletScreen2List){
             bu.paint(clock);
         }

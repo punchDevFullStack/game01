@@ -70,8 +70,10 @@ public class GameScreen extends Screen{
     private static List<Bullet> bulletList;
     private static List<Bullet2> bullet2List;
     private static List<Bullet3> bullet3List;
+    private static List<Bullet4> bullet4List;
     private Bullet3 bullet3;
     private Bullet2 bullet2;
+    private Bullet4 bullet4;
 
     //=======================================================
     // define
@@ -174,6 +176,7 @@ public class GameScreen extends Screen{
         militiaList = new ArrayList<Militia>();
         bullet2List =new ArrayList<Bullet2>();
         bullet3List =new ArrayList<Bullet3>();
+        bullet4List =new ArrayList<Bullet4>();
         gun = new Gun(world,450f,260f);
       //  if(check==1){
         militia = new Militia(world,500f,400f);
@@ -193,7 +196,7 @@ public class GameScreen extends Screen{
       //  if(check==1) {
             this.layer.add(militia.layer());
      //   }
-        
+
         //============================================================
         // debug mode
 
@@ -379,6 +382,10 @@ public class GameScreen extends Screen{
             bu3.update(delta);
             this.layer.add(bu3.layer());
         }
+        for(Bullet4 bu3 : bullet4List){
+            bu3.update(delta);
+            this.layer.add(bu3.layer());
+        }
         if (destroy==true){
             switch (character){
                 case SWAT: world.destroyBody(swat.getBody()); break;
@@ -437,6 +444,9 @@ public class GameScreen extends Screen{
         for(Bullet3 bu3 : bullet3List){
             bu3.paint(clock);
         }
+        for(Bullet4 bu3 : bullet4List){
+            bu3.paint(clock);
+        }
         if(showDebugDraw){
             debugDraw.getCanvas().clear();
             debugDraw.getCanvas().setFillColor(Color.rgb(255, 255, 255));
@@ -451,6 +461,9 @@ public class GameScreen extends Screen{
     }
     public static void shootHenchman(Bullet2 bullet2) {
         bullet2List.add(bullet2);
+    }
+    public static void shootPensioner(Bullet4 bullet4) {
+        bullet4List.add(bullet4);
     }
     public static void shootMilitia(Bullet3 bullet3) {
         bullet3List.add(bullet3);
