@@ -14,7 +14,7 @@ public class Howtoplay extends Screen {
     private final  ScreenStack ss;
     private final ImageLayer bgLayer;;
     private final ImageLayer backButton;
-
+    private final ImageLayer howtoLayer;
   
 
     public Howtoplay(final ScreenStack ss) {
@@ -28,8 +28,6 @@ public class Howtoplay extends Screen {
         this.backButton = graphics().createImageLayer(backImage);
         backButton.setTranslation(80 , 370);
 
-
-
         backButton.addListener(new Mouse.LayerAdapter() {
 
             public void onMouseDown(Mouse.ButtonEvent event) {
@@ -37,6 +35,9 @@ public class Howtoplay extends Screen {
             }
         });
 
+        Image howtoImage = assets().getImage("images/howtoplay.png");
+        this.howtoLayer = graphics().createImageLayer(howtoImage);
+        howtoLayer.setTranslation(80 , 100);
     }
 
 
@@ -44,8 +45,6 @@ public class Howtoplay extends Screen {
         super.wasShown();
         this.layer.add(bgLayer);
         this.layer.add(backButton);
-
-
-
+        this.layer.add(howtoLayer);
     }
 }

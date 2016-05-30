@@ -41,7 +41,7 @@ public class Bullet4Screen2 extends Screen {
         this.y = y_px;
         this.world = world;
 
-        Image bullet4Screen2Image = assets().getImage("images/bullet3.png");
+        Image bullet4Screen2Image = assets().getImage("images/bullet2.png");
         bullet4Screen2Layer  = graphics().createImageLayer(bullet4Screen2Image);
         body = initPhysicsBody(world, GameScreen2.M_PER_PIXEL * x_px,GameScreen2.M_PER_PIXEL * y_px);
 

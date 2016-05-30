@@ -14,7 +14,9 @@ public class Setting extends Screen {
     private final  ScreenStack ss;
     private final ImageLayer bgLayer;;
     private final ImageLayer backButton;
-
+    private final ImageLayer easyButton;
+    private final ImageLayer normalButton;
+    private final ImageLayer difficultButton;
   
 
     public Setting(final ScreenStack ss) {
@@ -28,8 +30,6 @@ public class Setting extends Screen {
         this.backButton = graphics().createImageLayer(backImage);
         backButton.setTranslation(100 , 325);
 
-
-
         backButton.addListener(new Mouse.LayerAdapter() {
 
             public void onMouseDown(Mouse.ButtonEvent event) {
@@ -37,6 +37,17 @@ public class Setting extends Screen {
             }
         });
 
+        Image easyImage = assets().getImage("images/easy.png");
+        this.easyButton = graphics().createImageLayer(easyImage);
+        easyButton.setTranslation(230 , 160);
+
+        Image normalImage = assets().getImage("images/normal.png");
+        this.normalButton = graphics().createImageLayer(normalImage);
+        normalButton.setTranslation(230 , 220);
+
+        Image difficultImage = assets().getImage("images/dificult.png");
+        this.difficultButton = graphics().createImageLayer(difficultImage);
+        difficultButton.setTranslation(230 ,280);
     }
 
 
@@ -44,8 +55,8 @@ public class Setting extends Screen {
         super.wasShown();
         this.layer.add(bgLayer);
         this.layer.add(backButton);
-
-
-
+        this.layer.add(easyButton);
+        this.layer.add(normalButton);
+        this.layer.add(difficultButton);
     }
 }

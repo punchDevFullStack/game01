@@ -164,7 +164,7 @@ public class GameScreen3 extends Screen {
                     DebugDraw.e_jointBit|DebugDraw.e_aabbBit);
 
             debugDraw.setCamera(0,0,1f/GameScreen3.M_PER_PIXEL);
-            world.setDebugDraw(debugDraw);
+      //      world.setDebugDraw(debugDraw);
         }
         world.setContactListener(new ContactListener() {
             @Override
@@ -181,7 +181,6 @@ public class GameScreen3 extends Screen {
                     boss.contact2(contact);
                 }
                 for(BulletScreen3 bu :bulletScreen3List){
-
                     if( contact.getFixtureA().getBody() == bu.getBody()||
                             contact.getFixtureB().getBody() == bu.getBody()){
                         bu.contact(contact);
@@ -204,6 +203,11 @@ public class GameScreen3 extends Screen {
                     }
                 }
                 for(Bullet2Screen3 bu2 :bullet2Screen3List){
+                    if( contact.getFixtureA().getBody() == bu2.getBody()||
+                            contact.getFixtureB().getBody() == bu2.getBody()){
+                        bu2.contact(contact);
+                        deletebody.add(bu2.body);
+                    }
                     if((a == bu2.getBody() &&  b == swat3.getBody()) || (a == swat3.getBody() && b == bu2.getBody())){
                         bu2.contact(contact);
                         dead=dead-1;
@@ -211,7 +215,9 @@ public class GameScreen3 extends Screen {
                             character = Character.SWATSCREEN3;
                             destroy = true;
                             swat3.layer().destroy();
+                            ss.remove(ss.top());
                             ss.push(new GameOverScreen(ss));
+
                         }
                         deletebody.add(bu2.body);
                         break;
@@ -237,6 +243,8 @@ public class GameScreen3 extends Screen {
 
     @Override
     public void update(int delta){
+        GameOverScreen.setScore(score);
+
         super.update(delta);
         swat3.update(delta);
         boss.update(delta);
