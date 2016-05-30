@@ -29,6 +29,8 @@ import static playn.core.PlayN.graphics;
 public class GameScreen3 extends Screen {
     public static final Font TITLE_FONT = graphics().createFont("Helvetica",Font.Style.PLAIN,72);
 
+    ArrayList<Body> deletebody = new ArrayList<Body>();
+
     private HomeScreen homeScreen;
     private final ScreenStack ss;
     private final ImageLayer bgLayer;
@@ -183,22 +185,21 @@ public class GameScreen3 extends Screen {
                     if( contact.getFixtureA().getBody() == bu.getBody()||
                             contact.getFixtureB().getBody() == bu.getBody()){
                         bu.contact(contact);
+                        deletebody.add(bu.body);
                     }
                     if((a == bu.getBody() &&  b == boss.getBody()) || (a == boss.getBody() && b == bu.getBody())){
                         bu.contact(contact);
-                        count1 = count1 +1; //henchman.contact(contact);
-                        //System.out.println(count1);
-                        // debugString = bodies.get(a) + " contact with " + bodies.get(b);
+                        count1 = count1 +1;
                         if(count1==5) {
                             character = Character.BOSS;
                             destroy = true;   h=destroy;
                             boss.layer().destroy();
-                            // bu.layer().destroy();
                             boss.contact(contact);
                             score+=10;
                             count1=0;
 
                         }
+                        deletebody.add(bu.body);
                         break;
                     }
                 }
@@ -207,16 +208,14 @@ public class GameScreen3 extends Screen {
                         bu2.contact(contact);
                         dead=dead-1;
                         if(dead==0) {
-                            //henchman.contact(contact);
                             character = Character.SWATSCREEN3;
                             destroy = true;
                             swat3.layer().destroy();
-                            // bu.layer().destroy();
                             ss.push(new GameOverScreen(ss));
-                        }break;
-
+                        }
+                        deletebody.add(bu2.body);
+                        break;
                     }
-
                 }
             }
 
@@ -270,6 +269,9 @@ public class GameScreen3 extends Screen {
            //     case GUNSCREEN2: world.destroyBody(gun2.getBody()); break;
                 case BOSS: world.destroyBody(boss.getBody()); break;
             }
+        }
+        for(Body body : deletebody) {
+            world.destroyBody(body);
         }
 }
     @Override

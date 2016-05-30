@@ -26,6 +26,8 @@ public class GameScreen extends Screen{
     private final GameScreen2 gameScreen2;
     private final GameOverScreen loadGame;
 
+    ArrayList<Body> deletebody = new ArrayList<Body>();
+
     static int score = 0;
     static int numbullet=20;
     private int count1 =0;
@@ -210,7 +212,7 @@ public class GameScreen extends Screen{
                     DebugDraw.e_jointBit|DebugDraw.e_aabbBit);
 
             debugDraw.setCamera(0,0,1f/GameScreen.M_PER_PIXEL);
-         //   world.setDebugDraw(debugDraw);
+            world.setDebugDraw(debugDraw);
         }
         world.setContactListener(new ContactListener() {
             @Override
@@ -272,6 +274,7 @@ public class GameScreen extends Screen{
                     if( contact.getFixtureA().getBody() == bu.getBody()||
                             contact.getFixtureB().getBody() == bu.getBody()){
                         bu.contact(contact);
+                        deletebody.add(bu.body);
                     }
                     if((a == bu.getBody() &&  b == henchman.getBody()) || (a == henchman.getBody() && b == bu.getBody())){
                         bu.contact(contact);
@@ -286,6 +289,7 @@ public class GameScreen extends Screen{
                             count1=0;
                             check=1;
                         }
+                        deletebody.add(bu.body);
                         break;
                     }
                     if((a == bu.getBody() &&  b == militia.getBody()) || (a == militia.getBody() && b == bu.getBody())){
@@ -298,7 +302,9 @@ public class GameScreen extends Screen{
                             // bu.layer().destroy();
                             count2=0;
                             score+=10;
-                        }break;
+                        }
+                        deletebody.add(bu.body);
+                        break;
                     }
                     if((a == bu.getBody() &&  b == pensioner.getBody()) || (a == pensioner.getBody() && b == bu.getBody())){
                         bu.contact(contact);
@@ -312,14 +318,16 @@ public class GameScreen extends Screen{
                             score+=10;
                             GameScreen2.setNumbullet1(numbullet);
                             ss.push(new GameScreen2(ss));
-                        }break;
+                        }
+                        deletebody.add(bu.body);
+                        break;
                     }
-
                 }
                 for(Bullet2 bu2 :bullet2List){
                     if( contact.getFixtureA().getBody() == bu2.getBody()||
                             contact.getFixtureB().getBody() == bu2.getBody()){
                         bu2.contact(contact);
+                        deletebody.add(bu2.body);
                     }
                     if((a == bu2.getBody() &&  b == swat.getBody()) || (a == swat.getBody() && b == bu2.getBody())){
                         bu2.contact(contact);
@@ -331,15 +339,16 @@ public class GameScreen extends Screen{
                             swat.layer().destroy();
                             // bu.layer().destroy();
                             ss.push(new GameOverScreen(ss));
-                        }break;
-
+                        }
+                        deletebody.add(bu2.body);
+                        break;
                     }
-
                 }
                 for(Bullet3 bu3 :bullet3List){
                     if( contact.getFixtureA().getBody() == bu3.getBody()||
                             contact.getFixtureB().getBody() == bu3.getBody()){
                         bu3.contact(contact);
+                        deletebody.add(bu3.body);
                     }
                     if((a == bu3.getBody() &&  b == swat.getBody()) || (a == swat.getBody() && b == bu3.getBody())){
                         bu3.contact(contact);
@@ -351,15 +360,16 @@ public class GameScreen extends Screen{
                             swat.layer().destroy();
                             // bu.layer().destroy();
                             ss.push(new GameOverScreen(ss));
-                        }break;
-
+                        }
+                        deletebody.add(bu3.body);
+                        break;
                     }
-
                 }
                 for(Bullet4 bu4 :bullet4List){
                     if( contact.getFixtureA().getBody() == bu4.getBody()||
                             contact.getFixtureB().getBody() == bu4.getBody()){
                         bu4.contact(contact);
+                        deletebody.add(bu4.body);
                     }
                     if((a == bu4.getBody() &&  b == swat.getBody()) || (a == swat.getBody() && b == bu4.getBody())){
                         bu4.contact(contact);
@@ -371,8 +381,9 @@ public class GameScreen extends Screen{
                             swat.layer().destroy();
                             // bu.layer().destroy();
                             ss.push(new GameOverScreen(ss));
-                        }break;
-
+                        }
+                        deletebody.add(bu4.body);
+                        break;
                     }
 
                 }
@@ -466,6 +477,9 @@ public class GameScreen extends Screen{
             if(p==true){
                 bullet4counttime=0;System.out.println(bullet4counttime);
             }
+        for(Body body : deletebody) {
+            world.destroyBody(body);
+        }
     }
 
 

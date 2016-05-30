@@ -21,7 +21,7 @@ public class Bullet2 extends Screen {
     private boolean hasLoaded = false;
     private float x;
     private float y;
-    private static Body body;
+    public Body body;
     private boolean contacted;
     private int contactCheck;
     private Body other;
