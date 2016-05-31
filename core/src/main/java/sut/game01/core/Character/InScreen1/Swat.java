@@ -41,9 +41,7 @@ public class Swat extends Screen{
     private boolean showDebugDraw=true;
     private float position;
 
-    private int numbullet=20;
-
-
+    private int numbullet=25;
 
     private  GameScreen g;
     private List<Bullet> bulletList;

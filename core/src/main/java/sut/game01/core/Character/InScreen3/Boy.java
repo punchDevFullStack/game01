@@ -108,7 +108,7 @@ public class Boy extends Screen{
         e += delta;
         if(e > 250) {
             switch(state) {
-                case IDLE: if(!(si>=0&&si<=6)){
+                case IDLE: if(!(si>=0&&si<=1)){
                     si = 0;
                 }
                     break;

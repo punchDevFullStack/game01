@@ -37,7 +37,7 @@ public class Boss extends Screen{
         IDLE,SHOOT
     }
 
-    private State state = State.IDLE;
+    private State state = State.SHOOT;
     public   Body body;
     private int e = 0;
     private int si = 0;
@@ -116,6 +116,7 @@ public class Boss extends Screen{
                 case SHOOT:
                         if(!(si>=2&&si<=3)){
                             si = 2;
+
                         }
                         break;
                     //  Bullet2 bu2 = new Bullet2(world,body.getPosition().x /GameScreen.M_PER_PIXEL +1,body.getPosition().y / GameScreen.M_PER_PIXEL-30);
@@ -141,9 +142,7 @@ public class Boss extends Screen{
 
         switch (state){
             case SHOOT:
-              //  body.applyForce(new Vec2(-5f, 0f), body.getPosition());
-                //Bullet2 bu2 = new Bullet2(world,body.getPosition().x /GameScreen.M_PER_PIXEL +100,body.getPosition().y / GameScreen.M_PER_PIXEL);
-                //  GameScreen.addBullet2(bu2);
+                body.applyForce(new Vec2(-10f, 0f), body.getPosition());
                 break;
 
         }

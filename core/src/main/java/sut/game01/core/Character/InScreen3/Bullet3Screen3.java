@@ -1,4 +1,4 @@
-package sut.game01.core.Character.InScreen1;
+package sut.game01.core.Character.InScreen3;
 
 
 import static playn.core.PlayN.*;
@@ -11,11 +11,11 @@ import playn.core.Image;
 import playn.core.ImageLayer;
 import playn.core.Layer;
 import playn.core.util.Clock;
-import sut.game01.core.Screen.GameScreen;
+import sut.game01.core.Screen.GameScreen3;
 import sut.game01.core.sprite.Sprite;
 import tripleplay.game.Screen;
 
-public class Bullet3 extends Screen {
+public class Bullet3Screen3 extends Screen {
     private Sprite sprite;
     private int spriteIndex = 0;
     private boolean hasLoaded = false;
@@ -24,10 +24,10 @@ public class Bullet3 extends Screen {
     public Body body;
     private boolean contacted;
     private int contactCheck;
-
+    private Body other;
     private World world;
     private boolean checkContact = false;
-    private ImageLayer bullet3Layer;
+    private ImageLayer bullet3Screen3Layer;
 
     public enum State{
         IDLE
@@ -36,14 +36,14 @@ public class Bullet3 extends Screen {
     private State state = State.IDLE;
     private int offset = 0;
     private int e = 0;
-    public Bullet3(final World world, final float x_px, final float y_px) {
+    public Bullet3Screen3(final World world, final float x_px, final float y_px) {
         this.x = x_px;
         this.y = y_px;
         this.world = world;
 
-        Image bullet3Image = assets().getImage("images/bullet2.png");
-        bullet3Layer  = graphics().createImageLayer(bullet3Image);
-        body = initPhysicsBody(world, GameScreen.M_PER_PIXEL * x_px,GameScreen.M_PER_PIXEL * y_px);
+        Image bullet3Screen3Image = assets().getImage("images/bullet2.png");
+        bullet3Screen3Layer  = graphics().createImageLayer(bullet3Screen3Image);
+        body = initPhysicsBody(world, GameScreen3.M_PER_PIXEL * x_px,GameScreen3.M_PER_PIXEL * y_px);
 
     }
 
@@ -54,13 +54,13 @@ public class Bullet3 extends Screen {
         Body body = world.createBody(bodyDef);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(10 * GameScreen.M_PER_PIXEL/2,
-                10*GameScreen.M_PER_PIXEL / 2);
+        shape.setAsBox(10 * GameScreen3.M_PER_PIXEL/2,
+                10*GameScreen3.M_PER_PIXEL / 2);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1.0f;
         fixtureDef.friction = 1000.0f;
-        fixtureDef.restitution = 0.35f;
+        fixtureDef.restitution = 5.35f;
         body.createFixture(fixtureDef);
 
         body.setLinearDamping(1.0f);
@@ -70,7 +70,7 @@ public class Bullet3 extends Screen {
     }
 
     public Layer layer(){
-        return bullet3Layer;
+        return bullet3Screen3Layer;
     }
 
     public void update(int delta) {
@@ -83,9 +83,9 @@ public class Bullet3 extends Screen {
     public void paint(Clock clock){
 
 
-        bullet3Layer.setTranslation(
-                (body.getPosition().x / GameScreen.M_PER_PIXEL),
-                body.getPosition().y / GameScreen.M_PER_PIXEL);
+        bullet3Screen3Layer.setTranslation(
+                (body.getPosition().x / GameScreen3.M_PER_PIXEL),
+                body.getPosition().y / GameScreen3.M_PER_PIXEL);
 
     }
 
@@ -95,9 +95,7 @@ public class Bullet3 extends Screen {
     public void contact(Contact contact){
         // body.setActive(false);
         checkContact = true;
-        bullet3Layer.setVisible(false);
+        bullet3Screen3Layer.setVisible(false);
     }
-
-
 }
 

@@ -75,7 +75,7 @@ public class Bullet extends Screen {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1.0f;
-        fixtureDef.friction = 2000.0f;
+        fixtureDef.friction = 1000.0f;
         fixtureDef.restitution = 0.35f;
         body.createFixture(fixtureDef);
 

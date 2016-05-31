@@ -41,7 +41,7 @@ public class Bullet4 extends Screen {
         this.y = y_px;
         this.world = world;
 
-        Image bullet4Image = assets().getImage("images/bullet3.png");
+        Image bullet4Image = assets().getImage("images/bullet2.png");
         bullet4Layer  = graphics().createImageLayer(bullet4Image);
         body = initPhysicsBody(world, GameScreen.M_PER_PIXEL * x_px,GameScreen.M_PER_PIXEL * y_px);
 
@@ -58,7 +58,7 @@ public class Bullet4 extends Screen {
                 10*GameScreen.M_PER_PIXEL / 2);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = 1f;
+        fixtureDef.density = 1.0f;
         fixtureDef.friction = 1000.0f;
         fixtureDef.restitution = 0.35f;
         body.createFixture(fixtureDef);

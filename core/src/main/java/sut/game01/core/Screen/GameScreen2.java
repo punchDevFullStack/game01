@@ -143,13 +143,13 @@ public class GameScreen2 extends Screen {
         EdgeShape left_wall = new EdgeShape();
         left_wall.set(new Vec2(0,0),new Vec2(0,height));
         ground.createFixture(left_wall,0.0f);
-/*
+
         //==================================================================
         // insert right_wall in world
         EdgeShape right_wall = new EdgeShape();
         right_wall.set(new Vec2(24,0),new Vec2(24,height));
         ground.createFixture(right_wall,0.0f);
-    */
+
 
         swat2 = new SwatScreen2(world, 80f, 400f);
         henchman2 = new HenchmanScreen2(world,440f,400f);
@@ -157,12 +157,10 @@ public class GameScreen2 extends Screen {
         bullet2Screen2List =new ArrayList<Bullet2Screen2>();
         bullet3Screen2List=new ArrayList<Bullet3Screen2>();
         bullet4Screen2List=new ArrayList<Bullet4Screen2>();
-        gun2 =  new GunScreen2(world,550f,300f);
+        gun2 =  new GunScreen2(world,250f,430f);
         pensionerScreen2 = new PensionerScreen2(world,550f,400f);
         militiaScreen2 = new MilitiaScreen2(world,500f,400f);
     }
-
-
 
     public void wasShown() {
 
@@ -189,7 +187,7 @@ public class GameScreen2 extends Screen {
                     DebugDraw.e_jointBit|DebugDraw.e_aabbBit);
 
             debugDraw.setCamera(0,0,1f/GameScreen2.M_PER_PIXEL);
-         //   world.setDebugDraw(debugDraw);
+            world.setDebugDraw(debugDraw);
         }
         world.setContactListener(new ContactListener() {
             @Override
@@ -214,28 +212,30 @@ public class GameScreen2 extends Screen {
                     character = Character.SWATSCREEN2;
                     destroy = true;
                     swat2.layer().destroy();
-                    ss.remove(ss.top());
+                   // ss.remove(ss.top());
                     ss.push(new GameOverScreen(ss));
                 }
                 if((a == swat2.getBody() &&  b == militiaScreen2.getBody()) || (a == militiaScreen2.getBody() && b == swat2.getBody())){
                     character = Character.SWATSCREEN2;
                     destroy=true;
                     swat2.layer().destroy();
-                    ss.remove(ss.top());
+               //     ss.remove(ss.top());
                     ss.push(new GameOverScreen(ss));
                 }
                 if((a == swat2.getBody() &&  b == pensionerScreen2.getBody()) || (a == pensionerScreen2.getBody() && b == swat2.getBody())){
                     character = Character.SWATSCREEN2;
                     destroy=true;
                     swat2.layer().destroy();
-                    ss.remove(ss.top());
+                   // ss.remove(ss.top());
                     ss.push(new GameOverScreen(ss));
                 }
                 if((a == swat2.getBody() &&  b == gun2.getBody()) || (a == gun2.getBody() && b == swat2.getBody())){
-                    numbullet3=numbullet3+10;
+                    numbullet3=numbullet3+15;
                     character = Character.GUNSCREEN2;
                     destroy=true;
                     gun2.layer().destroy();
+                   // ss.remove(ss.top());
+                  //  ss.push(new GameScreen3(ss));
                 }
                 for(BulletScreen2 bu :bulletScreen2List){
 
@@ -280,8 +280,8 @@ public class GameScreen2 extends Screen {
                             pensionerScreen2.layer().destroy();
                             count3=0;
                             score+=10;
-                           // GameScreen2.setNumbullet1(numbullet);
-                            ss.remove(ss.top());
+                            GameScreen2.setNumbullet1(numbullet);
+                          //  ss.remove(ss.top());
                             ss.push(new GameScreen3(ss));
                         }
                         deletebody.add(bu.body);
@@ -301,7 +301,7 @@ public class GameScreen2 extends Screen {
                             character = Character.SWATSCREEN2;
                             destroy = true;
                             swat2.layer().destroy();
-                            ss.remove(ss.top());
+                       //     ss.remove(ss.top());
                             ss.push(new GameOverScreen(ss));
                         }
                         deletebody.add(bu2.body);
@@ -321,7 +321,7 @@ public class GameScreen2 extends Screen {
                             character = Character.SWATSCREEN2;
                             destroy = true;
                             swat2.layer().destroy();
-                            ss.remove(ss.top());
+                        //    ss.remove(ss.top());
                             ss.push(new GameOverScreen(ss));
                         }
                         deletebody.add(bu3.body);
@@ -341,7 +341,7 @@ public class GameScreen2 extends Screen {
                             character = Character.SWATSCREEN2;
                             destroy = true;
                             swat2.layer().destroy();
-                            ss.remove(ss.top());
+                           // ss.remove(ss.top());
                             ss.push(new GameOverScreen(ss));
 
                         }
@@ -402,13 +402,14 @@ public class GameScreen2 extends Screen {
                 case HENCHMANSCREEN2: world.destroyBody(henchman2.getBody()); break;
                 case MILITIASCREEN2: world.destroyBody(militiaScreen2.getBody()); break;
                 case GUNSCREEN2: world.destroyBody(gun2.getBody()); break;
+                case PENSIONERSCREEN2: world.destroyBody(pensionerScreen2.getBody()); break;
             }
         }
         if(h==false){
             bullet2Screen2counttime += 20;
             System.out.println(bullet2Screen2counttime);
 
-            if (bullet2Screen2counttime % 2000 == 0) {
+            if (bullet2Screen2counttime % 1000 == 0) {
                 shooting();
             }
         }
@@ -416,7 +417,7 @@ public class GameScreen2 extends Screen {
             bullet3Screen2counttime +=10;
             System.out.println(bullet3Screen2counttime);
 
-            if (bullet3Screen2counttime %2000 == 0) {
+            if (bullet3Screen2counttime %1000 == 0) {
                 shooting1();
             }
         }
@@ -492,15 +493,15 @@ public class GameScreen2 extends Screen {
         bullet2Screen2List.add(bu2Screen2);
     }
     public void shooting(){
-            bullet2Screen2 = new Bullet2Screen2(world,henchman2.body.getPosition().x /GameScreen2.M_PER_PIXEL -150,henchman2.body.getPosition().y / GameScreen2.M_PER_PIXEL-20);
+            bullet2Screen2 = new Bullet2Screen2(world,henchman2.body.getPosition().x /GameScreen2.M_PER_PIXEL -50,henchman2.body.getPosition().y / GameScreen2.M_PER_PIXEL-20);
             GameScreen2.shootHenchmanScreen2(bullet2Screen2);
     }
     public void shooting1(){
-        bullet3Screen2 = new Bullet3Screen2(world,militiaScreen2.body.getPosition().x / GameScreen2.M_PER_PIXEL-150 ,militiaScreen2.body.getPosition().y / GameScreen2.M_PER_PIXEL-20);
+        bullet3Screen2 = new Bullet3Screen2(world,militiaScreen2.body.getPosition().x / GameScreen2.M_PER_PIXEL-50 ,militiaScreen2.body.getPosition().y / GameScreen2.M_PER_PIXEL-20);
         GameScreen2.shootMilitiaScreen2(bullet3Screen2);
     }
     public void shooting2(){
-        bullet4Screen2 = new Bullet4Screen2(world,pensionerScreen2.body.getPosition().x / GameScreen2.M_PER_PIXEL-150 ,pensionerScreen2.body.getPosition().y / GameScreen2.M_PER_PIXEL-20);
+        bullet4Screen2 = new Bullet4Screen2(world,pensionerScreen2.body.getPosition().x / GameScreen2.M_PER_PIXEL-50 ,pensionerScreen2.body.getPosition().y / GameScreen2.M_PER_PIXEL-20);
         GameScreen2.shootPensionerScreen2(bullet4Screen2);
     }
 }

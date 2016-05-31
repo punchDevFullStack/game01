@@ -13,12 +13,9 @@ import org.jbox2d.dynamics.contacts.Contact;
 import playn.core.*;
 //import sut.game01.core.Character.InScreen1.Militia;
 import playn.core.util.Clock;
-import sut.game01.core.Character.InScreen3.Boss;
-import sut.game01.core.Character.InScreen3.Bullet2Screen3;
-import sut.game01.core.Character.InScreen3.BulletScreen3;
+import sut.game01.core.Character.InScreen3.*;
 import tripleplay.game.Screen;
 import tripleplay.game.ScreenStack;
-import sut.game01.core.Character.InScreen3.SwatScreen3;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,9 +37,13 @@ public class GameScreen3 extends Screen {
     private List<SwatScreen3> swatScreen3List;
     private Boss boss;
     private List<Boss> bossList;
+    private Boy boy;
     private static List<BulletScreen3> bulletScreen3List;
     private static List<Bullet2Screen3> bullet2Screen3List;
+    private static List<Bullet3Screen3> bullet3Screen3List;
     private Bullet2Screen3 bullet2Screen3;
+    private Bullet3Screen3 bullet3Screen3;
+
     //=======================================================
     // define for world
 
@@ -62,6 +63,7 @@ public class GameScreen3 extends Screen {
     static int numbullet6;
     static  int numbullet4;
     private int bullet2Screen3counttime=0;
+    private int bullet3Screen3counttime=0;
 
     public enum Character{
         BOSS,SWATSCREEN3
@@ -124,19 +126,20 @@ public class GameScreen3 extends Screen {
         EdgeShape left_wall = new EdgeShape();
         left_wall.set(new Vec2(0,0),new Vec2(0,height));
         ground.createFixture(left_wall,0.0f);
-/*
+
         //==================================================================
         // insert right_wall in world
         EdgeShape right_wall = new EdgeShape();
         right_wall.set(new Vec2(24,0),new Vec2(24,height));
         ground.createFixture(right_wall,0.0f);
-    */
 
+        boy = new Boy(world,610f,400f);
         swat3= new SwatScreen3(world,80f,400f);
         swatScreen3List = new ArrayList<SwatScreen3>();
         boss = new Boss(world,550f,400f);
         bulletScreen3List =new ArrayList<BulletScreen3>();
         bullet2Screen3List = new ArrayList<Bullet2Screen3>();
+        bullet3Screen3List= new ArrayList<Bullet3Screen3>();
         bossList = new ArrayList<Boss>();
 
     }
@@ -148,6 +151,7 @@ public class GameScreen3 extends Screen {
         this.layer.add(backButton);
         this.layer.add(swat3.layer());
         this.layer.add(boss.layer());
+        this.layer.add(boy.layer());
 
         if(showDebugDraw){
             CanvasImage image = graphics().createImage(
@@ -189,14 +193,15 @@ public class GameScreen3 extends Screen {
                     if((a == bu.getBody() &&  b == boss.getBody()) || (a == boss.getBody() && b == bu.getBody())){
                         bu.contact(contact);
                         count1 = count1 +1;
-                        if(count1==5) {
+                        if(count1==6) {
                             character = Character.BOSS;
                             destroy = true;   h=destroy;
                             boss.layer().destroy();
                             boss.contact(contact);
                             score+=10;
                             count1=0;
-
+                            ss.remove(ss.top());
+                            ss.push(new ScreenWinner(ss));
                         }
                         deletebody.add(bu.body);
                         break;
@@ -220,6 +225,27 @@ public class GameScreen3 extends Screen {
 
                         }
                         deletebody.add(bu2.body);
+                        break;
+                    }
+                }
+                for(Bullet3Screen3 bu3 :bullet3Screen3List){
+                    if( contact.getFixtureA().getBody() == bu3.getBody()||
+                            contact.getFixtureB().getBody() == bu3.getBody()){
+                        bu3.contact(contact);
+                        deletebody.add(bu3.body);
+                    }
+                    if((a == bu3.getBody() &&  b == swat3.getBody()) || (a == swat3.getBody() && b == bu3.getBody())){
+                        bu3.contact(contact);
+                        dead=dead-1;
+                        if(dead==0) {
+                            character = Character.SWATSCREEN3;
+                            destroy = true;
+                            swat3.layer().destroy();
+                            ss.remove(ss.top());
+                            ss.push(new GameOverScreen(ss));
+
+                        }
+                        deletebody.add(bu3.body);
                         break;
                     }
                 }
@@ -249,6 +275,7 @@ public class GameScreen3 extends Screen {
         swat3.update(delta);
         boss.update(delta);
         world.step(0.033f,10,10);
+        boy.update(delta);
 
         for(BulletScreen3 bu: bulletScreen3List){
             bu.update(delta);
@@ -258,12 +285,23 @@ public class GameScreen3 extends Screen {
             bu.update(delta);
             this.layer.add(bu.layer());
         }
+        for(Bullet3Screen3 bu3: bullet3Screen3List){
+            bu3.update(delta);
+            this.layer.add(bu3.layer());
+        }
         if(h==false){
             bullet2Screen3counttime += 20;
             System.out.println(bullet2Screen3counttime);
 
             if (bullet2Screen3counttime % 2000 == 0) {
                 shooting();
+            }
+
+            bullet3Screen3counttime +=5;
+            System.out.println(bullet3Screen3counttime);
+
+            if(bullet3Screen3counttime%1000==0){
+                shooting1();
             }
         }
         if(h==true){
@@ -287,13 +325,16 @@ public class GameScreen3 extends Screen {
         super.paint(clock);
         swat3.paint(clock);
         boss.paint(clock);
-    //   henchman.paint(clock);
-      //militia.paint(clock);
+        boy.paint(clock);
+
         for(BulletScreen3 bu:bulletScreen3List){
             bu.paint(clock);
         }
         for(Bullet2Screen3 bu2 : bullet2Screen3List){
             bu2.paint(clock);
+        }
+        for(Bullet3Screen3 bu3: bullet3Screen3List){
+            bu3.paint(clock);
         }
         if(showDebugDraw){
             debugDraw.getCanvas().clear();
@@ -311,6 +352,9 @@ public class GameScreen3 extends Screen {
     public static void shootBossScreen3(Bullet2Screen3 bullet2) {
         bullet2Screen3List.add(bullet2);
     }
+    public static void shootBoss2Screen3(Bullet3Screen3 bullet3){
+        bullet3Screen3List.add(bullet3);
+    }
     public static void addBulletScreen3(BulletScreen3 bu)
     {
         bulletScreen3List.add(bu);
@@ -322,5 +366,9 @@ public class GameScreen3 extends Screen {
             bullet2Screen3 = new Bullet2Screen3(world,boss.body.getPosition().x / GameScreen3.M_PER_PIXEL-150 ,boss.body.getPosition().y / GameScreen3.M_PER_PIXEL-20);
             GameScreen3.shootBossScreen3(bullet2Screen3);
 
+    }
+    public void shooting1(){
+        bullet3Screen3 = new Bullet3Screen3(world,boss.body.getPosition().x/GameScreen3.M_PER_PIXEL-150,boss.body.getPosition().y/GameScreen3.M_PER_PIXEL-20);
+    GameScreen3.shootBoss2Screen3(bullet3Screen3);
     }
 }
