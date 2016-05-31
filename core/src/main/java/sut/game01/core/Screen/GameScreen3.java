@@ -169,7 +169,7 @@ public class GameScreen3 extends Screen {
                     DebugDraw.e_jointBit|DebugDraw.e_aabbBit);
 
             debugDraw.setCamera(0,0,1f/GameScreen3.M_PER_PIXEL);
-           world.setDebugDraw(debugDraw);
+           //world.setDebugDraw(debugDraw);
         }
         world.setContactListener(new ContactListener() {
             @Override
