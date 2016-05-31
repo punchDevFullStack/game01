@@ -97,6 +97,7 @@ public class GameScreen3 extends Screen {
         backButton.addListener(new Mouse.LayerAdapter(){
 
             public void onMouseDown(Mouse.ButtonEvent event) {
+                ss.remove(ss.top());
                 ss.push(new HomeScreen(ss));
             }
         });

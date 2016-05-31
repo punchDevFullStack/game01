@@ -34,6 +34,7 @@ public class Setting extends Screen {
 
             public void onMouseDown(Mouse.ButtonEvent event) {
                 ss.remove(ss.top());
+                ss.push(new HomeScreen(ss));
             }
         });
 

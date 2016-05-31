@@ -239,7 +239,7 @@ public class GameScreen extends Screen{
                     character = Character.SWAT;
                     destroy=true;
                     swat.layer().destroy();
-                   // ss.remove(ss.top());
+                    ss.remove(ss.top());
                     ss.push(loadGame);
                 }
                 if((a == swat.getBody() &&  b == militia.getBody()) || (a == militia.getBody() && b == swat.getBody())){
@@ -248,7 +248,7 @@ public class GameScreen extends Screen{
                     character = Character.SWAT;
                     destroy=true;
                     swat.layer().destroy();
-                //    ss.remove(ss.top());
+                    ss.remove(ss.top());
                     ss.push(loadGame);
                 }
                 if((a == swat.getBody() &&  b == pensioner.getBody()) || (a == pensioner.getBody() && b == swat.getBody())){
@@ -257,7 +257,7 @@ public class GameScreen extends Screen{
                     character = Character.SWAT;
                     destroy=true;
                     swat.layer().destroy();
-                //    ss.remove(ss.top());
+                    ss.remove(ss.top());
                     ss.push(loadGame);
                 }
                 if((a == swat.getBody() &&  b == gun.getBody()) || (a == gun.getBody() && b == swat.getBody())){
@@ -316,7 +316,7 @@ public class GameScreen extends Screen{
                             count3=0;
                             score+=10;
                             GameScreen2.setNumbullet1(numbullet);
-                         //   ss.remove(ss.top());
+                            ss.remove(ss.top());
                             ss.push(new GameScreen2(ss));
                         }
                         deletebody.add(bu.body);
@@ -337,7 +337,7 @@ public class GameScreen extends Screen{
                             character = Character.SWAT;
                             destroy = true;
                             swat.layer().destroy();
-                         //   ss.remove(ss.top());
+                            ss.remove(ss.top());
                             ss.push(new GameOverScreen(ss));
                         }
                         deletebody.add(bu2.body);
@@ -358,7 +358,7 @@ public class GameScreen extends Screen{
                             character = Character.SWAT;
                             destroy = true;
                             swat.layer().destroy();
-                       //     ss.remove(ss.top());
+                            ss.remove(ss.top());
                             ss.push(new GameOverScreen(ss));
                         }
                         deletebody.add(bu3.body);
@@ -378,7 +378,7 @@ public class GameScreen extends Screen{
                             character = Character.SWAT;
                             destroy = true;
                             swat.layer().destroy();
-                        //    ss.remove(ss.top());
+                            ss.remove(ss.top());
                             ss.push(new GameOverScreen(ss));
                         }
                         deletebody.add(bu4.body);

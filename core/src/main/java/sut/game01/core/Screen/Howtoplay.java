@@ -32,6 +32,7 @@ public class Howtoplay extends Screen {
 
             public void onMouseDown(Mouse.ButtonEvent event) {
                 ss.remove(ss.top());
+                ss.push(new HomeScreen(ss));
             }
         });
 

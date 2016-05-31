@@ -63,19 +63,22 @@ public class GameOverScreen extends Screen {
         this.scoreLayer = graphics().createImageLayer(scoreImage);
         scoreLayer.setTranslation(225,150);
 
-        retryLayer.addListener(new Mouse.LayerAdapter(
+    /*    retryLayer.addListener(new Mouse.LayerAdapter(
 
         ) {
 
             public void onMouseDown(Mouse.ButtonEvent event) {
                 ss.push(gameScreen2);
             }
-        });
+        });*/
 
         mainLayer.addListener(new Mouse.LayerAdapter(){
             @Override
             public void onMouseDown(Mouse.ButtonEvent event) {
                 ss.remove(ss.top());
+                ss.remove(ss.top());
+                ss.remove(ss.top());
+                ss.push(new HomeScreen(ss));
             }
         });
 
