@@ -29,7 +29,7 @@ public class GameScreen extends Screen{
     ArrayList<Body> deletebody = new ArrayList<Body>();
 
     static int score = 0;
-    static int numbullet=25;
+    static int numbullet=30;
     private int count1 =0;
     private int count2 =0;
     private int count3 =0;
@@ -173,7 +173,7 @@ public class GameScreen extends Screen{
         bullet2List =new ArrayList<Bullet2>();
         bullet3List =new ArrayList<Bullet3>();
         bullet4List =new ArrayList<Bullet4>();
-        gun = new Gun(world,250f,440f);
+        gun = new Gun(world,230f,440f);
         pensioner = new Pensioner(world,620f,400f);
 
         //   if(check==1){
@@ -264,6 +264,7 @@ public class GameScreen extends Screen{
                     numbullet=numbullet+15;
                     character = Character.GUN;
                     destroy=true;
+                    Swat.setNumbullet(numbullet);
                     gun.layer().destroy();
 
                 }

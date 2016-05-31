@@ -297,7 +297,7 @@ public class GameScreen3 extends Screen {
                 shooting();
             }
 
-            bullet3Screen3counttime +=5;
+            bullet3Screen3counttime +=10;
             System.out.println(bullet3Screen3counttime);
 
             if(bullet3Screen3counttime%1000==0){

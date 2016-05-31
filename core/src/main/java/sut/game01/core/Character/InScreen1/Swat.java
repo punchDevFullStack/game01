@@ -41,7 +41,7 @@ public class Swat extends Screen{
     private boolean showDebugDraw=true;
     private float position;
 
-    private int numbullet=25;
+    public static int numbullet=30;
 
     private  GameScreen g;
     private List<Bullet> bulletList;
@@ -59,7 +59,13 @@ public class Swat extends Screen{
 
     private int e = 0;
   //  private int offset = 0;
+    public  static void setNumbullet(int numbullet){
+      Swat.numbullet=numbullet;
+  }
 
+    public static int getNumbullet(){
+        return numbullet;
+    }
     public Swat(final World world, final float x, final float y) {
     this.x=x;
     this.y=y;

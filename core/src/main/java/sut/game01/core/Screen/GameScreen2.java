@@ -157,7 +157,7 @@ public class GameScreen2 extends Screen {
         bullet2Screen2List =new ArrayList<Bullet2Screen2>();
         bullet3Screen2List=new ArrayList<Bullet3Screen2>();
         bullet4Screen2List=new ArrayList<Bullet4Screen2>();
-        gun2 =  new GunScreen2(world,250f,430f);
+        gun2 =  new GunScreen2(world,230f,430f);
         pensionerScreen2 = new PensionerScreen2(world,550f,400f);
         militiaScreen2 = new MilitiaScreen2(world,500f,400f);
     }
@@ -187,7 +187,7 @@ public class GameScreen2 extends Screen {
                     DebugDraw.e_jointBit|DebugDraw.e_aabbBit);
 
             debugDraw.setCamera(0,0,1f/GameScreen2.M_PER_PIXEL);
-            world.setDebugDraw(debugDraw);
+         //   world.setDebugDraw(debugDraw);
         }
         world.setContactListener(new ContactListener() {
             @Override
@@ -233,6 +233,7 @@ public class GameScreen2 extends Screen {
                     numbullet3=numbullet3+15;
                     character = Character.GUNSCREEN2;
                     destroy=true;
+                    SwatScreen2.setNumbullet2(numbullet3);
                     gun2.layer().destroy();
                    // ss.remove(ss.top());
                   //  ss.push(new GameScreen3(ss));
@@ -247,7 +248,7 @@ public class GameScreen2 extends Screen {
                     if((a == bu.getBody() &&  b == henchman2.getBody()) || (a == henchman2.getBody() && b == bu.getBody())){
                         bu.contact(contact);
                         count1 = count1 +1;
-                        if(count1==4) {
+                        if(count1==3) {
                             character = Character.HENCHMANSCREEN2;
                             destroy = true;h=destroy;
                             henchman2.layer().destroy();
@@ -261,7 +262,7 @@ public class GameScreen2 extends Screen {
                     if((a == bu.getBody() &&  b == militiaScreen2.getBody()) || (a == militiaScreen2.getBody() && b == bu.getBody())){
                         bu.contact(contact);
                         count2=count2+1;
-                        if(count2==4) {
+                        if(count2==3) {
                             character = Character.MILITIASCREEN2;
                             destroy = true; m=destroy;
                             militiaScreen2.layer().destroy();
@@ -274,7 +275,7 @@ public class GameScreen2 extends Screen {
                     if((a == bu.getBody() &&  b == pensionerScreen2.getBody()) || (a == pensionerScreen2.getBody() && b == bu.getBody())){
                         bu.contact(contact);
                         count3=count3+1;
-                        if(count3==4) {
+                        if(count3==3) {
                             character = Character.PENSIONERSCREEN2;
                             destroy = true; p=destroy;
                             pensionerScreen2.layer().destroy();
