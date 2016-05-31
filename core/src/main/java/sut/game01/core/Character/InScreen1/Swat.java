@@ -55,7 +55,7 @@ public class Swat extends Screen{
     }
     private State state = State.RIDLE;
     private boolean left=false;
-    private Body body;
+    public static Body body;
 
     private int e = 0;
   //  private int offset = 0;

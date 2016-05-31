@@ -37,7 +37,7 @@ public class Militia extends Screen{
 
     private State state = State.IDLE;
 
-    public Body body;
+    public static Body body;
 
     private int e = 0;
     private int offset =0;

@@ -169,7 +169,7 @@ public class GameScreen3 extends Screen {
                     DebugDraw.e_jointBit|DebugDraw.e_aabbBit);
 
             debugDraw.setCamera(0,0,1f/GameScreen3.M_PER_PIXEL);
-      //      world.setDebugDraw(debugDraw);
+           world.setDebugDraw(debugDraw);
         }
         world.setContactListener(new ContactListener() {
             @Override
@@ -291,17 +291,17 @@ public class GameScreen3 extends Screen {
             this.layer.add(bu3.layer());
         }
         if(h==false){
-            bullet2Screen3counttime += 20;
+            bullet2Screen3counttime += 10;
             System.out.println(bullet2Screen3counttime);
 
-            if (bullet2Screen3counttime % 2000 == 0) {
+            if (bullet2Screen3counttime%2000 == 0) {
                 shooting();
             }
 
             bullet3Screen3counttime +=10;
             System.out.println(bullet3Screen3counttime);
 
-            if(bullet3Screen3counttime%1000==0){
+            if(bullet3Screen3counttime%200==0){
                 shooting1();
             }
         }

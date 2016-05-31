@@ -39,7 +39,7 @@ public class Pensioner extends Screen{
     }
 
     private State state = State.JUMP;
-    public Body body;
+    public static Body body;
     private int e = 0;
     private int si = 0;
 

@@ -39,7 +39,7 @@ public class Henchman extends Screen{
 
     private State state = State.WALK;
 
-    public Body body;
+    public static Body body;
 
     private int e = 0;
     private int offset =0;

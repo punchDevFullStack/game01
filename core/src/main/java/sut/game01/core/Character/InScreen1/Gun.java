@@ -37,7 +37,7 @@ public class Gun extends Screen{
     }
 
     private State state = State.IDLE;
-    private Body body;
+    public static Body body;
     private int e = 0;
     private int si = 0;
 

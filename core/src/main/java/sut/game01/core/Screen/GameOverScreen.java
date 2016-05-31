@@ -3,6 +3,9 @@ package sut.game01.core.Screen;
 import org.jbox2d.dynamics.World;
 import playn.core.*;
 import playn.core.util.Clock;
+import sut.game01.core.Character.InScreen1.*;
+import sut.game01.core.Character.InScreen2.SwatScreen2;
+import sut.game01.core.Character.InScreen3.SwatScreen3;
 import tripleplay.game.Screen;
 import tripleplay.game.ScreenStack;
 
@@ -77,7 +80,18 @@ public class GameOverScreen extends Screen {
             public void onMouseDown(Mouse.ButtonEvent event) {
                 ss.remove(ss.top());
                 ss.remove(ss.top());
-                ss.remove(ss.top());
+             //   ss.remove(ss.top());
+              /*  world.destroyBody(Swat.body);
+                world.destroyBody(SwatScreen2.body);
+                world.destroyBody(SwatScreen3.body);
+                world.destroyBody(Gun.body);
+                world.destroyBody(Henchman.body);
+                world.destroyBody(Militia.body);
+                world.destroyBody(Pensioner.body);
+                Swat.setNumbullet(30);
+                GameScreen.dead=3;
+                GameScreen.score=0;
+                */
                 ss.push(new HomeScreen(ss));
             }
         });

@@ -1,6 +1,10 @@
 package sut.game01.core.Screen;
 
+import org.jbox2d.dynamics.World;
 import playn.core.*;
+import sut.game01.core.Character.InScreen1.*;
+import sut.game01.core.Character.InScreen2.SwatScreen2;
+import sut.game01.core.Character.InScreen3.SwatScreen3;
 import tripleplay.game.Screen;
 import tripleplay.game.ScreenStack;
 import tripleplay.ui.*;
@@ -25,7 +29,7 @@ public class HomeScreen extends Screen {
     private final ImageLayer questionLayer;
     private final ImageLayer settingLayer;
     private final GameScreen gameScreen;
-
+    private World world;
     private Root root;
 
     public HomeScreen(final ScreenStack ss){
@@ -71,6 +75,17 @@ public class HomeScreen extends Screen {
         newButton.addListener(new Mouse.LayerAdapter() {
 
             public void onMouseDown(Mouse.ButtonEvent event) {
+           /*     world.destroyBody(Swat.body);
+                world.destroyBody(SwatScreen2.body);
+                world.destroyBody(SwatScreen3.body);
+                world.destroyBody(Gun.body);
+                world.destroyBody(Henchman.body);
+                world.destroyBody(Militia.body);
+                world.destroyBody(Pensioner.body);*/
+                Swat.setNumbullet(30);
+                GameScreen.numbullet=30;
+                GameScreen.dead=3;
+                GameScreen.score=0;
                 ss.push(gameScreen);
             }
         });

@@ -35,7 +35,7 @@ public class ScreenWinner extends Screen {
     public ScreenWinner(final ScreenStack ss) {
         this.ss = ss;
         // this.homeScreen = new HomeScreen(ss);
-        Image bgImage = assets().getImage("images/winner.png");
+        Image bgImage = assets().getImage("images/win.png");
         this.bgLayer = graphics().createImageLayer(bgImage);
 
 
