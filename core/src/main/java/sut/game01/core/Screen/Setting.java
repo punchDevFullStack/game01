@@ -18,6 +18,8 @@ public class Setting extends Screen {
     private final ImageLayer normalButton;
     private final ImageLayer difficultButton;
   
+    static boolean n=false;
+    static boolean m=false;
 
     public Setting(final ScreenStack ss) {
         this.ss = ss;
@@ -42,13 +44,45 @@ public class Setting extends Screen {
         this.easyButton = graphics().createImageLayer(easyImage);
         easyButton.setTranslation(230 , 160);
 
+        easyButton.addListener(new Mouse.LayerAdapter() {
+
+            public void onMouseDown(Mouse.ButtonEvent event) {
+                n=false;
+                HomeScreen.setN(n);
+                ss.remove(ss.top());
+                ss.push(new HomeScreen(ss));
+            }
+        });
+
         Image normalImage = assets().getImage("images/normal.png");
         this.normalButton = graphics().createImageLayer(normalImage);
         normalButton.setTranslation(230 , 220);
 
+        normalButton.addListener(new Mouse.LayerAdapter() {
+
+            public void onMouseDown(Mouse.ButtonEvent event) {
+                n=true;
+                HomeScreen.setN(n);
+                ss.remove(ss.top());
+                ss.push(new HomeScreen(ss));
+            }
+        });
+
         Image difficultImage = assets().getImage("images/dificult.png");
         this.difficultButton = graphics().createImageLayer(difficultImage);
         difficultButton.setTranslation(230 ,280);
+
+        difficultButton.addListener(new Mouse.LayerAdapter() {
+
+            public void onMouseDown(Mouse.ButtonEvent event) {
+                /*m=true;
+                HomeScreen.setMM(m);
+                ss.remove(ss.top());
+                ss.remove(ss.top());
+                ss.push(new HomeScreen(ss));
+                */
+            }
+        });
     }
 
 

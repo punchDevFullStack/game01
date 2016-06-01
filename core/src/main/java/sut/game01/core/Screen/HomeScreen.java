@@ -32,6 +32,24 @@ public class HomeScreen extends Screen {
     private World world;
     private Root root;
 
+    static boolean n=false;
+    static boolean mm=false;
+
+    public  static void setN(boolean numbullet){
+        HomeScreen.n=numbullet;
+    }
+
+    public static boolean getN(){
+        return n;
+    }
+    public  static void setMM(boolean numbullet){
+        HomeScreen.mm=numbullet;
+    }
+
+    public static boolean getMM(){
+        return mm;
+    }
+
     public HomeScreen(final ScreenStack ss){
         this.ss = ss;
         this.gameScreen2 = new GameScreen2(ss);
@@ -50,7 +68,7 @@ public class HomeScreen extends Screen {
         Image logoImage = assets().getImage("images/logo.png");
         this.logoLayer = graphics().createImageLayer(logoImage);
         logoLayer.setTranslation(10 , 30);
-       
+
         Image newImage = assets().getImage("images/buttonNewGame.png");
         this.newButton = graphics().createImageLayer(newImage);
         newButton.setTranslation(30, 250);
@@ -82,11 +100,28 @@ public class HomeScreen extends Screen {
                 world.destroyBody(Henchman.body);
                 world.destroyBody(Militia.body);
                 world.destroyBody(Pensioner.body);*/
-                Swat.setNumbullet(30);
+
+                if(n==false){
+                    Swat.setNumbullet(30);
                 GameScreen.numbullet=30;
                 GameScreen.dead=3;
                 GameScreen.score=0;
                 ss.push(gameScreen);
+                }
+                if (n==true){
+                    Swat.setNumbullet(20);
+                    GameScreen.numbullet=20;
+                    GameScreen.dead=3;
+                    GameScreen.score=0;
+                    ss.push(gameScreen);
+                }
+                if(mm==true){
+                    Swat.setNumbullet(15);
+                    GameScreen.numbullet=15;
+                    GameScreen.dead=3;
+                    GameScreen.score=0;
+                    ss.push(gameScreen);
+                }
             }
         });
 
@@ -123,7 +158,7 @@ public class HomeScreen extends Screen {
     }
 
 
-    
+
     public void wasShown() {
         super.wasShown();
 
@@ -137,6 +172,6 @@ public class HomeScreen extends Screen {
        // this.layer.add(soundLayer);
         this.layer.add(questionLayer);
         this.layer.add(settingLayer);
-    
+
     }
 }
